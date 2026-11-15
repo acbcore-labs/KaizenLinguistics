@@ -1,110 +1,61 @@
-# 04 — Open-Source Content, Linguistic Corpus & Visual Grounding Pipeline
+# 04 — Assisted Course Compilation, Multi-Evidence Screening & Editorial Gate (v2.0 — Hardened)
 
 **Project:** KaizenLinguistics  
-**Subsystem:** Offline Proposer-Verifier Course Compiler (`kaizen-compiler`)  
-**Licensing Guarantee:** 100% Free, Open-Weight, Public Domain / CC0 / CC-BY-SA Data Sources  
+**Primary Languages:** Koine Greek (`grc`) & Classical / Biblical Hebrew (`hbo`)  
+**Subsystem:** Offline Assisted Course Compiler (`kaizen-compiler`)  
+**Licensing Guarantee:** 100% Free, Open-Weight, Public Domain / CC0 / CC-BY / CC-BY-SA Data Sources  
 
 ---
 
-## 1. The Zero-Cost Content Challenge
+## 1. Epistemic Shift: From "Unattended Raw Joins" to "Template-First Assisted Compilation"
 
-Building a commercial-grade [Rosetta Stone Dynamic Immersion](https://www.rosettastone.com/our-method) curriculum traditionally required millions of dollars in studio photography, bilingual lexicographers, and voice actors ([Rosetta Stone Profile](https://economy.ac/wiki/company/rosetta-stone)).
+In v1.0, the compiler specification implied that joining six raw datasets and filtering by a single [Apple MobileCLIP](https://github.com/apple-aiml-research/ml-mobileclip) margin (`>= 0.18`) would automatically guarantee "zero-ambiguity" lessons.
 
-**KaizenLinguistics** replaces manual content production with an automated, deterministic **Open-Source Linguistic & Visual ETL Compiler** (`kaizen-compiler`) that synthesizes complete, multi-level courses for any target language ($L_2$) by joining six open-data pillars:
+Following architectural review, v2.0 corrects two core assumptions:
+1. **A Neural Similarity Margin is a Ranking Heuristic, Not a Proof of Meaning:**
+   [Apple MobileCLIP](https://github.com/apple-aiml-research/ml-mobileclip) (`MobileCLIP-S2` on [mlfoundations/open_clip](https://github.com/mlfoundations/open_clip)) is an image-text retrieval model, not a formal verifier of pedagogical contrast. A high similarity score can be triggered by background co-occurrences rather than the targeted grammatical distinction.
+2. **Authored Contrast Templates First; Automated Corpus Enrichment Second:**
+   Reconciling word senses, registers, controlled minimal contrasts, and unambiguous visual scenes cannot be left to unconstrained cross-dataset SQL joins—especially for **Koine Greek (`grc`)** and **Biblical Hebrew (`hbo`)**. Instead, v2.0 uses a **Template-First Assisted Compilation** workflow:
+   * **Stage A (Curated Contrast Blueprints):** Lessons start from structured YAML/TOML contrast blueprints modeled on proven zero-L1 sequences ([Aleph with Beth](https://dantes.io/resource/aleph-with-beth-free-biblical-hebrew-video-course-6abc0ecdf769b646f61723db) for Biblical Hebrew; [Alpha with Angela](https://freegreek.online/about/) and [Everyday Koine](https://github.com/kwozymoto/koine-greek) for Koine Greek).
+   * **Stage B (Corpus Enrichment & Mining):** The compiler enriches templates and mines authentic clause examples from [Clear-Bible/macula-hebrew](https://github.com/Clear-Bible/macula-hebrew), [ETCBC/bhsa](https://github.com/ETCBC/bhsa), [Clear-Bible/macula-greek](https://github.com/Clear-Bible/macula-greek), and [morphgnt/sblgnt](https://github.com/morphgnt/sblgnt).
+   * **Stage C (6-Dimensional Evidence Evaluation + Human Editorial Sign-Off):** Every compiled exercise records a structured 6-part evidence manifest, and **no exercise enters a production `.klpack` for Milestone 1–3 without `editorial_status = 'APPROVED'`**.
 
-| Data Layer | Primary Open-Source Dataset / Tool | License | Role in Course Synthesis |
+---
+
+## 2. Primary Open-Source Data Sources for `grc` & `hbo`
+
+| Data Layer | Koine Greek (`grc`) Source | Biblical Hebrew (`hbo`) Source | General / Cross-Lingual Support |
 | :--- | :--- | :--- | :--- |
-| **1. Cross-Lingual Concept Graph** | [Wikidata Lexicographical Data](https://www.wikidata.org/wiki/Wikidata:Lexicographical_data) (`L-ID` Lexemes + `Q-ID` Concepts) | CC0 (Public Domain) | Language-independent semantic anchor linking words across all languages to concrete visualizable entities (`P18` image, `P5137` item for sense) |
-| **2. Lexicon, IPA & Inflection Tables** | [Kaikki.org Raw Data](https://kaikki.org/dictionary/rawdata.html) via [tatuylonen/wiktextract](https://github.com/tatuylonen/wiktextract) & [Kaikki-Wiktionary-Ultimate-SQLite](https://huggingface.co/datasets/wave101828228/Kaikki-Wiktionary-Ultimate-SQLite) | CC-BY-SA / GFDL | Complete morphological inflection paradigms, gender/noun classes, IPA pronunciations, audio links, and semantic glosses |
-| **3. Morphosyntactic Grammar Spine** | [Universal Dependencies (UD)](https://universaldependencies.org/) (200+ Treebanks across 150+ Languages) | CC-BY-SA / GPL / MIT | Gold-standard CoNLL-U syntactic dependency trees (`UPOS`, `FEATS`, `DEPREL`) used to order grammar concepts and extract minimal-pair syntactic templates |
-| **4. Graded Sentence Corpus** | [Tatoeba Corpus](https://en.wikipedia.org/wiki/Tatoeba) & [Helsinki-NLP/tatoeba-challenge](https://github.com/Helsinki-nlp/tatoeba-challenge) | CC-BY 2.0 FR / CC0 | Millions of natural, learner-oriented sentences indexed by length, lemma frequency, and syntactic structure |
-| **5. Grounded Visual Scenes** | [Open Images Dataset V7](https://docs.ultralytics.com/datasets/detect/open-images-v7) ([openimages/dataset](https://github.com/openimages/dataset/blob/master/READMEV3.md)) + Wikimedia Commons | CC-BY 4.0 / CC0 | 9M+ images with object bounding boxes, segmentation masks, visual relationships (`boy riding horse`), and localized narratives |
-| **6. Native & Neural Speech Audio** | [Mozilla Common Voice](https://commonvoice.mozilla.org/) + [Kokoro-82M MLX](https://github.com/gabrimatic/kokoro-mlx) ([Neywa-Labs/mlx-audio](https://github.com/Neywa-Labs/mlx-audio)) | CC0 + Apache-2.0 | Human native recordings supplemented by 24 kHz multi-speaker neural TTS force-aligned via [Montreal Forced Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner) |
+| **1. Base Text & Morphology** | [morphgnt/sblgnt](https://github.com/morphgnt/sblgnt) & [LogosBible/SBLGNT](https://github.com/LogosBible/SBLGNT) (CC-BY 4.0 / CC-BY-SA) | [openscriptures/morphhb](https://github.com/openscriptures/morphhb) (Public Domain WLC + CC-BY 4.0 Morph) & [ETCBC/bhsa](https://github.com/ETCBC/bhsa) | [Kaikki.org Raw Data](https://kaikki.org/dictionary/rawdata.html) via [tatuylonen/wiktextract](https://github.com/tatuylonen/wiktextract) |
+| **2. Syntax Trees, Semantic Domains & Referents** | [Clear-Bible/macula-greek](https://github.com/Clear-Bible/macula-greek) & [NuBerea/macula-sblgnt-syntax](https://huggingface.co/datasets/NuBerea/macula-sblgnt-syntax) (Louw-Nida Domains + Referents) | [Clear-Bible/macula-hebrew](https://github.com/Clear-Bible/macula-hebrew) (UBS SDBH Semantic Domains + Participant Referents) | [Universal Dependencies](https://universaldependencies.org/): [UD_Ancient_Greek-PROIEL](https://github.com/UniversalDependencies/UD_Ancient_Greek-PROIEL) & [UD_Ancient_Hebrew-PTNK](https://github.com/UniversalDependencies/UD_Ancient_Hebrew-PTNK) |
+| **3. Lexica & Principal Parts** | [translatable-exegetical-tools/Abbott-Smith](https://github.com/translatable-exegetical-tools/Abbott-Smith) & [morphgnt/morphological-lexicon](https://github.com/morphgnt/morphological-lexicon) | [openscriptures/HebrewLexicon](https://github.com/openscriptures/HebrewLexicon) (BDB + Strong's XML) & [BibleAquifer/BDBHebrewLexicon](https://github.com/BibleAquifer/BDBHebrewLexicon/blob/main/README.md) | [Wikidata Lexicographical Data](https://www.wikidata.org/wiki/Wikidata:Lexicographical_data) |
+| **4. Immersion Scope, Visuals & Audio** | [Alpha with Angela (`freegreek.online`)](https://freegreek.online/about/), [kwozymoto/koine-greek](https://github.com/kwozymoto/koine-greek), [greek-learner-texts](https://github.com/greek-learner-texts/vocabulary-data) | [Aleph with Beth (`freehebrew.online`)](https://freehebrew.online/the-divine-name/) ([Dantes Review](https://dantes.io/resource/aleph-with-beth-free-biblical-hebrew-video-course-6abc0ecdf769b646f61723db)) | [Open Images V7](https://docs.ultralytics.com/datasets/detect/open-images-v7), Wikimedia Commons & [Kokoro-82M MLX](https://github.com/gabrimatic/kokoro-mlx) |
 
 ---
 
-## 2. Five-Stage Proposer-Verifier Compilation Pipeline
+## 3. The Six-Dimensional Evidence Record (Replacing Binary "Verified" Claims)
 
-```
-+-----------------------------------------------------------------------------+
-| STAGE 1: CONCEPT & LEXEME INGESTION                                         |
-| Wikidata Lexemes (L-IDs / Q-IDs) + Kaikki.org (wiktextract JSONL / SQLite)  |
-| -> Builds Canonical Target-Language Lexeme & Inflection Paradigm Graph      |
-+--------------------------------------+--------------------------------------+
-                                       ▼
-+-----------------------------------------------------------------------------+
-| STAGE 2: MORPHOSYNTACTIC CURRICULUM SEQUENCING                              |
-| Universal Dependencies (UD) Treebanks + Tatoeba Sentence Corpus             |
-| -> Ranks sentences by i+1 Concept Coverage & UD Feature Complexity          |
-+--------------------------------------+--------------------------------------+
-                                       ▼
-+-----------------------------------------------------------------------------+
-| STAGE 3: VISUAL SCENE MATCHING & DISTRACTOR MINING (PROPOSER)               |
-| Open Images V7 Visual Relationships + Wikimedia Commons                     |
-| -> Proposes 4-Image Minimal-Pair Quads (1 Target + 3 Hard Distractors)      |
-+--------------------------------------+--------------------------------------+
-                                       ▼
-+-----------------------------------------------------------------------------+
-| STAGE 4: DETERMINISTIC MULTIMODAL VERIFIER GATE                             |
-| 1. Apple MobileCLIP Cosine Margin Gate (Δ_clip >= 0.18, zero ambiguity)     |
-| 2. UD One-Hot Feature Delta Check (exact morphological/lexical contrast)    |
-| 3. Montreal Forced Aligner / Wav2Vec2 Audio-Phoneme Alignment Check         |
-+--------------------------------------+--------------------------------------+
-                                       ▼
-+-----------------------------------------------------------------------------+
-| STAGE 5: IMMUTABLE MERKLE COURSE PACKAGER (.klpack)                         |
-| Compiles verified SQLite DB + 48kbps Opus Audio + WebP 512x512 Tiles        |
-+-----------------------------------------------------------------------------+
-```
+Instead of stamping an exercise with a single boolean `verified = true` based on a CLIP threshold, `kaizen-compiler` evaluates and stores **six distinct evidence fields** in the `exercise_evidence` table for every candidate contrast exercise:
+
+| Evidence Dimension | What It Measures | How It Is Computed | Role in Gating |
+| :--- | :--- | :--- | :--- |
+| **1. `structural_validity`** | Schema completeness, valid foreign keys, non-empty audio/visual blobs, valid Unicode normalization (`NFC` with canonical Hebrew *niqqud* ordering). | Deterministic Rust/Python schema validator. | **Hard Gate:** Must be `PASS` (`100%`). |
+| **2. `linguistic_contrast_purity`** | Confirms that contrasting panels isolate the targeted feature (e.g., `Case=Nom` vs. `Case=Acc`, or `Binyan=Qal` vs. `Binyan=Hiphil`) without unintended lexical or morphological confounding. | Morphological feature diff over [MACULA](https://github.com/Clear-Bible/macula-hebrew) / [MorphGNT](https://github.com/morphgnt/sblgnt) tags. | **Hard Gate:** Flags `CONFOUNDED_LEXEME` or `MULTI_FEATURE_DRIFT` for human fix. |
+| **3. `visual_discrimination_score`** | Heuristic estimate of how clearly target image $I_i$ matches scene description $T_i$ relative to distractor images $I_{j \neq i}$. | [Apple MobileCLIP](https://github.com/apple-aiml-research/ml-mobileclip) diagonal margin $\Delta_{\text{clip}} = \mathbf{M}_{i,i} - \max_{j \neq i} \mathbf{M}_{i,j}$ (stored as continuous `REAL`, e.g., `0.24`). | **Soft Screening Signal:** Ranks candidate images and flags `< 0.15` for editorial review; never treated as proof of truth. |
+| **4. `audio_alignment_confidence`** | Acoustic quality and phoneme-boundary alignment probability between audio waveform and expected `grc`/`hbo` IPA string. | Mean log-posterior and frame coverage from [Montreal Forced Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner) / `wav2vec2-xlsr-53`. | **Quality Gate:** Flags low-confidence TTS or noisy recordings (`< 0.80`) for re-synthesis or human recording. |
+| **5. `license_provenance_complete`** | Verifies every attached text, audio clip, and image carries a valid SPDX license identifier (`CC0-1.0`, `CC-BY-4.0`, `CC-BY-SA-4.0`, `Public-Domain`), author attribution, and source URI. | Deterministic provenance check against `media_assets`. | **Hard Gate:** Must be `PASS` (`100%`). |
+| **6. `editorial_review_status`** | Human/author inspection confirming that the visual contrast, audio cadence, and morphological highlight genuinely teach the target concept without ambiguity. | Explicit CLI/UI review workflow (`DRAFT` $\rightarrow$ `APPROVED` / `REJECTED` with `rejection_reason`). | **Final Release Gate (Milestones 1–3):** Only `APPROVED` exercises are packaged into study sessions. |
 
 ---
 
-## 3. Detailed Stage Specifications
+## 4. Handling Abstract & Non-Picturable Language (Intermediate Bridge)
 
-### 3.1 Stage 1: Cross-Lingual Concept Graph & Morphological Paradigms
-Rather than anchoring a course in English translations, every teachable unit in KaizenLinguistics is anchored to a language-agnostic **Concept Node** (`concept_qid`, e.g., `Q726` = *horse*, `Q146` = *cat*, `Q1079023` = *running*):
-1. **Wikidata Lexeme Resolution:** Querying [Wikidata Lexicographical Data](https://www.wikidata.org/wiki/Wikidata:Lexicographical_data/Documentation), each Lexeme (`L-ID`) in target language $L_2$ links its specific Sense (`S-ID`) to a Wikidata Item (`Q-ID`) via property `P5137` (*item for this sense*) or `P5972` (*translation*), and carries explicit grammatical Forms (`F-ID`) annotated with grammatical features (e.g., singular, plural, nominative, accusative, past participle).
-2. **Kaikki / Wiktextract Enrichment:** The compiler joins each lemma with [Kaikki.org](https://kaikki.org/dictionary/rawdata.html) ([tatuylonen/wiktextract](https://github.com/tatuylonen/wiktextract)) to extract complete inflectional tables, IPA transcriptions, hyphenation/syllabification, and Wikimedia Commons audio files.
+A classic failure mode of pure photo-matching systems is that intermediate language involves concepts that cannot be pictured unambiguously in a static photograph (e.g., *"in order that" (`ἵνα`)*, *"covenant loyalty" (`חֶסֶד`)*, *"therefore" (`οὖν`)*, *"for" (`γάρ` / `כִּי`)*, *"righteousness" (`δικαιοσύνη` / `צְדָקָה`)*).
 
-### 3.2 Stage 2: Inductive $i + 1$ Curriculum Ordering via Universal Dependencies
-To replicate Rosetta Stone's carefully graded ramp (where every new screen introduces at most **one** unknown lexical or morphological element), the compiler parses candidate sentences from [Tatoeba](https://en.wikipedia.org/wiki/Tatoeba) into [Universal Dependencies](https://universaldependencies.org/) `CoNLL-U` structures:
-* Each sentence $S$ is represented as a tuple of:
-  * **Lemma Set:** $\mathcal{L}(S) = \{\ell_1, \dots, \ell_k\}$
-  * **Morphological Feature Set:** $\mathcal{F}(S) = \bigcup_{i=1}^k \text{FEATS}(w_i)$ (e.g., `Number=Plur`, `Gender=Fem`, `Tense=Pres`, `Aspect=Prog`, `Case=Acc`)
-  * **Syntactic Dependency Relations:** $\mathcal{D}(S) = \{\text{nsubj}, \text{obj}, \text{amod}, \text{case}, \dots\}$
-* **Greedy Topological $i+1$ Ordering:** Given the set of already-introduced concepts $\mathcal{K}_t$ at curriculum step $t$, the next lesson unit selects a cluster of minimal-pair sentences $S_{\text{next}}$ that minimizes unknown elements:
-  $$\left| \left(\mathcal{L}(S_{\text{next}}) \cup \mathcal{F}(S_{\text{next}})\right) \setminus \mathcal{K}_t \right| = 1$$
+KaizenLinguistics solves this without reverting to English grammar-translation lectures by transitioning across **four representational modalities** as the learner advances from Tier 1 to Tier 4:
 
-### 3.3 Stage 3 & 4: Visual Grounding & The MobileCLIP Verifier Gate
-A major failure mode in automated visual flashcard generation is **visual ambiguity**—if the audio says *"The woman is drinking water"* and two different images in the $2 \times 2$ quad show a woman holding a cup, the immersion contract breaks.
-
-KaizenLinguistics prevents visual ambiguity using a two-step **Visual Relationship + [Apple MobileCLIP](https://github.com/apple-aiml-research/ml-mobileclip) Verification Gate**:
-
-1. **Structured Scene Retrieval from Open Images V7:**
-   [Open Images V7](https://docs.ultralytics.com/datasets/detect/open-images-v7) contains explicit **Visual Relationship Triplets** `(Subject, Predicate, Object)`—such as `(Man, riding, Bicycle)`, `(Girl, playing, Guitar)`, `(Dog, on, Chair)`, `(Car, is, Red)`—alongside localized narratives ([Open Images Deep Dive](https://roboflow.com/blog/open-images-dataset)).
-2. **Factorial Distractor Selection:**
-   To build a $2 \times 2$ quad for target triplet $(Subj^*, Pred^*, Obj^*)$, the Proposer selects three hard distractors that share structural overlap:
-   * Distractor $I_2$: $(Subj^*, Pred^*, Obj_{\text{alt}})$ — Same subject and action, different object.
-   * Distractor $I_3$: $(Subj_{\text{alt}}, Pred^*, Obj^*)$ — Different subject, same action and object.
-   * Distractor $I_4$: $(Subj_{\text{alt}}, Pred_{\text{alt}}, Obj_{\text{alt}})$ — Foil contrast.
-3. **Deterministic MobileCLIP Disambiguation Margin:**
-   Using [apple-aiml-research/ml-mobileclip](https://github.com/apple-aiml-research/ml-mobileclip) (`MobileCLIP-S2`, built on [mlfoundations/open_clip](https://github.com/mlfoundations/open_clip)), the Verifier computes normalized embeddings $\hat{\mathbf{v}}_k = E_{\text{img}}(I_k)$ for all four candidate images ($k \in \{1..4\}$) and text embeddings $\hat{\mathbf{u}}_k = E_{\text{txt}}(T_k)$ for the canonical scene descriptions.
-   A candidate quad $\mathcal{Q}$ is **accepted into the curriculum if and only if** the confusion matrix $\mathbf{M}_{i,j} = \hat{\mathbf{u}}_i^\top \hat{\mathbf{v}}_j$ is strictly diagonally dominant with margin $\tau_{\text{clip}} = 0.18$:
-
-   $$\forall i \in \{1, 2, 3, 4\}: \quad \mathbf{M}_{i,i} - \max_{j \neq i} \mathbf{M}_{i,j} \ge \tau_{\text{clip}}$$
-
-   If any distractor image $I_j$ has high semantic similarity to prompt $T_i$ (for example, a background person in $I_j$ is also performing action $T_i$), the Verifier automatically rejects the image and swaps in a clean candidate.
-
----
-
-## 4. Curated Core Curriculum Taxonomy (Levels 1 to 5 — 20 Units)
-
-Following Rosetta Stone's proven functional progression while grounding every unit in [Universal Dependencies](https://universaldependencies.org/) morphosyntax, every compiled `.klpack` course is organized into **5 Levels (20 Units, 80 Core Lessons)**:
-
-| Level | Units | Core Semantic Domains | Targeted Morphosyntactic & Phonological Structures |
-| :--- | :---: | :--- | :--- |
-| **Level 1: Foundations of Perception** | Units 1–4 | People, everyday actions, colors, numbers (1–20), clothing, food, animals, family, household objects | Present continuous/indicative, grammatical gender & noun classes, singular/plural inflection, adjective agreement, basic negation, yes/no & `wh-` questions |
-| **Level 2: Spatial, Temporal & Social Navigation** | Units 5–8 | Locations in town, directions, transit, clock time, calendar/seasons, weather, shopping, dining out | Locative/directional adpositions & cases, past perfective/imperfective tense, future tense, pronominal clitics (direct/indirect object), polite vs. familiar register |
-| **Level 3: Narrative, Comparison & Agency** | Units 9–12 | Work & trades, health & body, travel & lodging, measurements, emotions, sequential events | Comparative & superlative degree, reflexive/reciprocal verbs, imperative mood, temporal subordinate clauses (*before, after, while*), passive/impersonal voice |
-| **Level 4: Complex Modality & Abstract Causation** | Units 13–16 | Commerce, repairs & machinery, environment, cultural traditions, problem resolution | Conditional & counterfactual clauses, subjunctive/optative mood, relative clauses, modal auxiliaries (*must, should, might*), causative constructions |
-| **Level 5: Fluency, Discourse & Technical Precision** | Units 17–20 | Extended narratives, debate/opinion, idiomatic register, technical/industrial descriptions | Reported/indirect speech, aspectual nuances, complex multi-clause subordination, native prosodic speed drills |
+1. **Concrete Perceptual Scenes (Tier 1–2):** Static SVG/illustrated scenes and curated photos for physical entities, spatial prepositions, concrete actions, number, gender, and Agent/Patient case roles.
+2. **Sequential Comic / Aspect Strips (Tier 2–3):** 3-panel chronological sequences for verbal aspect (Greek Imperfective vs. Aorist vs. Perfect; Hebrew *Qatal* vs. *Yiqtol* vs. *Wayyiqtol*) and modal causation (*Qal* vs. *Hiphil*).
+3. **Contextual $L_2$ Micro-Dialogues & Situational Frames (Tier 3):** Short 2-to-3 sentence exchanges using $100\%$ already-mastered vocabulary where discourse particles (`γάρ`, `οὖν`, `ἀλλά`, `כִּי`, `הִנֵּה`, `לָכֵן`) connect cause and effect, and the learner selects the logical continuation or speaker intent.
+4. **Scaffolded Authentic Pericope Reader with Semantic Domain Links (Tier 4 — Intermediate):**
+   Draws directly from [Clear-Bible/macula-greek](https://github.com/Clear-Bible/macula-greek) (Louw-Nida Semantic Domains) and [Clear-Bible/macula-hebrew](https://github.com/Clear-Bible/macula-hebrew) (UBS Semantic Dictionary of Biblical Hebrew) to present authentic biblical clauses where unknown abstract words are explained first via **known $L_2$ synonyms/antonyms from the same semantic domain** and participant-referent arrows, with optional on-demand access to [Abbott-Smith](https://github.com/translatable-exegetical-tools/Abbott-Smith) or [OpenScriptures BDB](https://github.com/openscriptures/HebrewLexicon) lexical entries.

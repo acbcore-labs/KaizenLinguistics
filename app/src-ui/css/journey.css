@@ -1,0 +1,518 @@
+/* KAIZEN LINGUISTICS — Course Progression Journey & Focused Lesson Styles */
+
+/* ========================================================================== */
+/* VIEW: COURSE PROGRESSION JOURNEY & ROADMAP                                 */
+/* ========================================================================== */
+
+.journey-page {
+  background: var(--paper-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.journey-container {
+  max-width: 1120px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Hero Course Card */
+.journey-hero-card {
+  background: var(--folio-elevated);
+  border: 2px solid var(--rule-strong);
+  box-shadow: var(--shadow-plate);
+  padding: 28px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.journey-hero-card::before,
+.journey-hero-card::after {
+  content: "+";
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--rule-strong);
+}
+.journey-hero-card::before { top: 8px; left: 10px; }
+.journey-hero-card::after { bottom: 8px; right: 10px; }
+
+.journey-hero-left {
+  flex: 1;
+  min-width: 320px;
+}
+
+.journey-lang-badge {
+  font-family: var(--font-target);
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--lapis-cobalt);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.journey-hero-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.journey-progress-text {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  margin-bottom: 12px;
+}
+
+.journey-progress-bar-track {
+  width: 100%;
+  max-width: 480px;
+  height: 8px;
+  background: var(--rule-hairline);
+  overflow: hidden;
+}
+
+.journey-progress-bar-fill {
+  height: 100%;
+  background: var(--verdigris-pass);
+  transition: width 0.3s ease;
+}
+
+.journey-hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.hero-continue-btn {
+  background: var(--rubric-vermilion);
+  color: #FFFFFF;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 14px 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(184, 51, 42, 0.25);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-continue-btn:hover {
+  background: #992921;
+  transform: translateY(-1px);
+}
+
+.explorer-mode-toggle {
+  background: transparent;
+  border: 1px dashed var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-secondary);
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.explorer-mode-toggle:hover {
+  background: var(--gold-soft);
+  color: var(--ink-primary);
+}
+
+/* Journey Sub-Nav Bar (Roadmap vs Tools) */
+.journey-nav-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--rule-hairline);
+  padding-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.journey-tabs-group {
+  display: flex;
+  gap: 6px;
+}
+
+.journey-nav-btn {
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.journey-nav-btn:hover {
+  background: var(--gold-soft);
+  color: var(--ink-primary);
+}
+
+.journey-nav-btn.active {
+  background: var(--ink-primary);
+  color: var(--paper-bg);
+  border-color: var(--ink-primary);
+}
+
+/* Units Progression Tree */
+.units-progression-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.unit-cluster-card {
+  background: var(--folio-elevated);
+  border: 1px solid var(--rule-hairline);
+  box-shadow: var(--shadow-plate);
+  overflow: hidden;
+  position: relative;
+}
+
+.unit-cluster-card.active-unit {
+  border-left: 4px solid var(--rubric-vermilion);
+}
+
+.unit-cluster-header {
+  padding: 16px 24px;
+  background: var(--folio-surface);
+  border-bottom: 1px solid var(--rule-hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.unit-cluster-title-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.unit-cluster-number {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rubric-vermilion);
+  font-weight: 700;
+}
+
+.unit-cluster-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.unit-cluster-objective {
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+}
+
+.unit-cluster-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border: 1px solid var(--rule-hairline);
+  background: var(--paper-bg);
+  color: var(--ink-secondary);
+}
+
+.unit-cluster-badge.in-progress {
+  color: var(--rubric-vermilion);
+  border-color: var(--rubric-vermilion);
+  background: var(--rubric-soft);
+}
+
+.unit-cluster-badge.completed {
+  color: var(--verdigris-pass);
+  border-color: var(--verdigris-pass);
+  background: var(--verdigris-soft);
+}
+
+/* Lessons Grid inside Unit */
+.lessons-grid {
+  padding: 18px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 14px;
+}
+
+.lesson-journey-card {
+  background: var(--paper-bg);
+  border: 1px solid var(--rule-hairline);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.lesson-journey-card.available {
+  border-color: var(--rule-strong);
+  cursor: pointer;
+}
+
+.lesson-journey-card.available:hover {
+  background: var(--gold-soft);
+  border-color: var(--gold-burnished);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-plate);
+}
+
+.lesson-journey-card.next-up {
+  border: 2px solid var(--rubric-vermilion);
+  background: var(--folio-elevated);
+}
+
+.lesson-journey-card.completed {
+  border-left: 4px solid var(--verdigris-pass);
+  opacity: 0.95;
+}
+
+.lesson-journey-card.locked {
+  opacity: 0.6;
+  background: var(--folio-surface);
+  cursor: not-allowed;
+}
+
+.lesson-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.lesson-card-num {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  font-weight: 700;
+}
+
+.lesson-card-status {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.lesson-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  line-height: 1.3;
+}
+
+.lesson-card-lemma {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px dashed var(--rule-hairline);
+  padding-top: 8px;
+}
+
+.lesson-lemma-text {
+  font-family: var(--font-target);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--lapis-cobalt);
+}
+
+.lesson-grammar-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-secondary);
+}
+
+.lesson-start-btn {
+  background: var(--ink-primary);
+  color: var(--paper-bg);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.12s ease;
+}
+
+.lesson-start-btn:hover {
+  background: var(--lapis-cobalt);
+}
+
+.lesson-start-btn.next-up-btn {
+  background: var(--rubric-vermilion);
+  color: #FFFFFF;
+}
+.lesson-start-btn.next-up-btn:hover {
+  background: #992921;
+}
+
+/* ========================================================================== */
+/* VIEW: FOCUSED UNCLUTTERED LESSON STAGE                                    */
+/* ========================================================================== */
+
+.focused-lesson-page {
+  background: var(--paper-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.focused-lesson-top-bar {
+  background: var(--folio-elevated);
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 12px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.lesson-back-btn {
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lesson-back-btn:hover {
+  background: var(--gold-soft);
+  color: var(--ink-primary);
+}
+
+.lesson-breadcrumb-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.focused-lesson-stage {
+  max-width: 1040px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Success Celebration Banner */
+.lesson-success-banner {
+  display: none;
+  background: var(--verdigris-soft);
+  border: 2px solid var(--verdigris-pass);
+  padding: 20px 24px;
+  margin-bottom: 8px;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeIn 0.25s ease;
+}
+
+.lesson-success-banner.open {
+  display: flex;
+}
+
+.success-banner-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.success-check-icon {
+  font-size: 1.8rem;
+  color: var(--verdigris-pass);
+}
+
+.success-banner-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.success-banner-message {
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+  line-height: 1.45;
+}
+
+.success-actions-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.success-next-btn {
+  background: var(--verdigris-pass);
+  color: #FFFFFF;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+.success-next-btn:hover {
+  background: #1b4939;
+}
+
+.success-voice-btn {
+  background: var(--lapis-cobalt);
+  color: #FFFFFF;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.success-voice-btn:hover {
+  background: #142a4e;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

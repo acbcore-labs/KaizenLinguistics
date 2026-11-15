@@ -1,44 +1,40 @@
-# 01 — System Architecture & Local-First Runtime Topology
+# 01 — System Architecture & Local-First Runtime Topology (v2.0 — Hardened)
 
-**Project:** KaizenLinguistics (Personal Proprietary Dynamic Immersion Engine)  
+**Project:** KaizenLinguistics (Personal Local-First Language Acquisition Engine)  
+**Primary Languages:** Koine Greek (`grc`) & Classical / Biblical Hebrew (`hbo`)  
 **Target Host Architecture:** Apple Silicon (`arm64` / M1 MacBook Pro, 16 GB Unified Memory, 1 TB NVMe SSD)  
 **Cost & Licensing Constraint:** 100% Zero-Cost, Offline-First, Pure Open-Source Models & Public/CC Corpora  
 
 ---
 
-## 1. Executive Architectural Vision
+## 1. Executive Architectural Vision & Epistemic Grounding
 
-**KaizenLinguistics** re-engineers and surpasses the classic [Rosetta Stone Dynamic Immersion Method](https://www.rosettastone.com/our-method) and its proprietary *TruAccent* speech engine using a deterministic, zero-cloud, local-first software stack. Whereas legacy commercial platforms rely on static, manually photographed scripts and coarse acoustic templates, KaizenLinguistics combines:
+**KaizenLinguistics** is a personal, local-first language acquisition platform designed to combine the best of [Rosetta Stone's Dynamic Immersion](https://www.rosettastone.com/our-method) (teaching through structured perceptual contrasts rather than $L_1$ translation crutches) with the deeply annotated philological corpora of **Koine Greek (`grc`)** and **Biblical Hebrew (`hbo`)**.
 
-1. **Inductive Visual-Audio-Orthographic Immersion:** Zero native-language ($L_1$) translation during active instruction, forcing direct neural binding between visual concepts, spoken phonetics, and target-language ($L_2$) morphosyntax ([Rosetta Stone Blog: Dynamic Immersion](https://blog.rosettastone.com/dynamic-immersion-learning-with-rosetta-stone/)).
-2. **Proposer-Verifier Curriculum Compilation:** An offline ingestion and synthesis pipeline proposes candidate minimal-pair visual/audio exercises from open corpora ([Kaikki.org Machine-Readable Wiktionary](https://kaikki.org/dictionary/rawdata.html), [Wikidata Lexicographical Data](https://www.wikidata.org/wiki/Wikidata:Lexicographical_data), [Tatoeba](https://en.wikipedia.org/wiki/Tatoeba), and [Universal Dependencies](https://universaldependencies.org/)), while a strict deterministic **Verifier** validates morphological contrast, visual disambiguation margin via [Apple MobileCLIP](https://github.com/apple-aiml-research/ml-mobileclip), and phonetic alignability before sealing lessons into an immutable Merkle-hashed content DAG.
-3. **Sub-Phonemic Acoustic Telemetry ("OpenTruAccent"):** Frame-level forced alignment and Goodness of Pronunciation (GoP) scoring powered by [ggml-org/whisper.cpp](https://github.com/ggerganov/whisper.cpp?ref=itsfoss.com), [facebook/wav2vec2-xlsr-53-espeak-cv-ft](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft), and Dynamic Time Warping ([Halleck45/OpenPronounce](https://github.com/Halleck45/OpenPronounce)), paired with 24 kHz neural speech synthesis via [Kokoro-82M on MLX](https://github.com/gabrimatic/kokoro-mlx).
-4. **Mathematically Optimal Memory Scheduling:** Native Rust integration of the Free Spaced Repetition Scheduler ([open-spaced-repetition/fsrs-rs](https://github.com/open-spaced-repetition/fsrs-rs)) extended across coupled multi-modal stability vectors (Listening, Reading, Speaking, Writing).
+Following rigorous architectural review, v2.0 establishes a strict distinction between **deterministic system guarantees** (content hashing, schema constraints, reproducible state transitions) and **probabilistic model evidence** (visual similarity scores, acoustic phoneme posteriors, memory retention estimates):
+
+1. **The Native Primitive is a Contrast Graph (Not Isolated Flashcards):**
+   Every teachable unit is modeled as a structured neighborhood of meanings, language-specific surface forms, realizations (scenes, audio, text), and **controlled minimal contrasts** derived from [Clear-Bible/macula-greek](https://github.com/Clear-Bible/macula-greek), [Clear-Bible/macula-hebrew](https://github.com/Clear-Bible/macula-hebrew), [morphgnt/sblgnt](https://github.com/morphgnt/sblgnt), and [ETCBC/bhsa](https://github.com/ETCBC/bhsa).
+2. **Forward-Corrective Pairing (Proposer + Multi-Evidence Gate + Editorial Approval):**
+   Course compilation is separated from the interactive runtime. Candidate exercises generated or mined from open corpora are evaluated across **six independent evidence dimensions** (structural validity, linguistic contrast purity, visual discrimination evidence, audio/alignment confidence, license completeness, and human editorial review status). Automated model scores (such as [Apple MobileCLIP](https://github.com/apple-aiml-research/ml-mobileclip) cosine margins) serve as **candidate screening and ranking heuristics**, never as a substitute for editorial sign-off.
+3. **Calibrated Acoustic Assessment with Explicit Abstention:**
+   Rather than overclaiming that a neural phoneme recognizer recovers exact articulatory tongue movements, the acoustic pipeline ([ggml-org/whisper.cpp](https://github.com/ggerganov/whisper.cpp?ref=itsfoss.com) + [facebook/wav2vec2-xlsr-53-espeak-cv-ft](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft)) separates signal quality, unconstrained utterance verification, forced alignment confidence, and contrast assessment—explicitly returning **`ABSTAIN / UNABLE_TO_ASSESS`** whenever signal noise or alignment uncertainty exceeds calibrated thresholds.
+4. **Pinned FSRS Scheduling with Observed-Only Stability Updates:**
+   Integrates a single pinned version of [open-spaced-repetition/fsrs-rs](https://github.com/open-spaced-repetition/fsrs-rs) ([FSRS Algorithm Wiki](https://github.com/open-spaced-repetition/fsrs4anki/wiki/The-Algorithm)). Listening, Reading, Speaking, and Writing maintain independent review histories updated strictly from direct observations of that skill, using **sibling spacing/burying** to prevent repetitive same-day drills while logging cross-modality transfer hypotheses in shadow mode.
 
 ---
 
-## 2. Three Engineering Pillars Applied to KaizenLinguistics
+## 2. Forward-Corrective Architectural Axioms
 
-To guarantee zero-confabulation reliability, deterministic state transitions, and sub-50ms interactive latency on a 16 GB Apple M1 machine, the system enforces three foundational engineering pillars:
+Every generative, inferential, or scheduling operation in KaizenLinguistics is paired with an explicit **corrective counterpart** so unverified model outputs never silently corrupt curriculum quality or learner mastery records:
 
-### Pillar I: Proposer-Verifier Duality (Zero Unverified Curriculum Artifacts)
-* **The Problem:** Generative or scraped language content frequently suffers from ambiguous images (where multiple pictures plausibly match a sentence), broken morphological agreement, or unverified G2P transcriptions.
-* **The Architectural Solution:** Curriculum generation is strictly decoupled from runtime execution into a two-stage **Proposer $\rightarrow$ Verifier** compiler:
-  * **The Proposer (Offline Compiler):** Mines sentence-image-audio candidates from [Tatoeba](https://github.com/Helsinki-nlp/tatoeba-challenge), [Kaikki.org](https://kaikki.org/), and [Open Images V7](https://docs.ultralytics.com/datasets/detect/open-images-v7).
-  * **The Verifier (Deterministic Gate):** Rejects any candidate quad $(I_1, I_2, I_3, I_4)$ unless:
-    1. **Morphosyntactic Parse Verification:** The target sentence parses cleanly against [Universal Dependencies](https://universaldependencies.org/) CoNLL-U grammar constraints with exactly one targeted grammatical or lexical delta relative to its distractors.
-    2. **Visual-Semantic Margin Verification:** Using [apple-aiml-research/ml-mobileclip](https://github.com/apple-aiml-research/ml-mobileclip) embeddings, the cosine similarity between the target caption $T_i$ and target image $I_i$ must exceed all distractor images $I_{j \neq i}$ by a strict margin $\Delta_{\text{clip}} \ge 0.18$.
-    3. **Phonetic Alignment Verification:** The reference audio (from [Mozilla Common Voice](https://commonvoice.mozilla.org/) or [Kokoro-82M MLX](https://blaizzy.github.io/mlx-audio/models/tts/kokoro/)) must achieve $100\%$ phoneme coverage and mean posterior probability $\ge 0.85$ when force-aligned against the [espeak-ng](https://github.com/espeak-ng/espeak-ng) IPA transcription.
-
-### Pillar II: Deterministic State & Auditable Merkle Content Addressing
-* Every lexical concept, morphological paradigm, audio waveform, image tile, and 4-choice immersion quad is content-addressed by its `BLAKE3` / `SHA-256` digest.
-* Learner progress (FSRS memory states $[D, S, R]$ and phoneme error confusion matrices) is recorded as an append-only event log in SQLite (`WAL` mode), allowing deterministic replay, exact parameter re-optimization via [fsrs-rs](https://docs.rs/fsrs), and zero risk of state corruption.
-
-### Pillar III: Hardware-Sympathetic Zero-Allocation Execution on Apple Silicon
-* **Strict Memory Ceiling (`< 6.0 GB` Combined Resident Footprint):** Designed specifically for an Apple MacBook Pro M1 (16 GB unified RAM), leaving $>10\text{ GB}$ free for macOS and developer workflows.
-* **Unified Memory & Neural Engine Offload:**
-  * Desktop shell built on [Tauri v2](https://github.com/tauri-apps/tauri) (`Rust` core + native macOS `WKWebView`), eliminating the $400\text{--}800\text{ MB}$ Chromium overhead of Electron ([Tauri Architecture](https://github.com/tauri-apps/tauri/blob/dev/ARCHITECTURE.md)).
-  * Pre-allocated PCM audio ring buffers in Rust (`cpal`) pass 16 kHz mono `f32` audio frames directly to in-process C/C++ [whisper.cpp](https://github.com/ggerganov/whisper.cpp?ref=itsfoss.com) (using Apple CoreML / Metal backends) and ONNX/MLX phonetic encoders without heap fragmentation or Python IPC bottlenecks during active speaking drills.
+| System Layer | Forward Operation | Corrective Counterpart |
+| :--- | :--- | :--- |
+| **1. Curriculum Synthesis** | Propose a contrast exercise from authored templates + [MACULA](https://github.com/Clear-Bible/macula-hebrew) / [MorphGNT](https://github.com/morphgnt/sblgnt) corpora | Multi-evidence inspection + explicit rejection codes (`CONFOUNDED_CONTRAST`, `AMBIGUOUS_SCENE`, `LOW_ALIGNMENT_CONF`) + editorial approval gate |
+| **2. Learner Comprehension** | Infer grammatical or lexical understanding from a correct choice | Probe understanding with an unprompted permutation or novel lexical instantiation of the same grammatical contrast |
+| **3. Speech & Phonology** | Score spoken pronunciation via acoustic alignment & phoneme posteriors | **Abstain (`UNABLE_TO_ASSESS`)** and request a clean re-recording when SNR, VAD clipping, or alignment confidence is low |
+| **4. Multi-Skill Scheduling** | Bury/space sibling modalities (`LISTEN`, `READ`, `SPEAK`, `WRITE`) to avoid collision | Require direct active testing of the destination modality (`SPEAK` / `WRITE`) before advancing its FSRS stability $S$ |
+| **5. Course Pack Evolution** | Publish an updated `.klpack` course version | Migrate unaffected concept states via stable `concept_id` + `contrast_id` keys and safely invalidate modified exercises |
 
 ---
 
@@ -49,96 +45,82 @@ To guarantee zero-confabulation reliability, deterministic state transitions, an
 |                        KAIZEN LINGUISTICS DESKTOP CLIENT                          |
 |                   Tauri v2 Application Shell (macOS WKWebView)                    |
 |  +-----------------------+  +------------------------+  +----------------------+  |
-|  | 2x2 Visual Immersion  |  | Real-Time IPA & Pitch  |  | FSRS-5 Telemetry &   |  |
-|  | Quad Canvas (Zero-L1) |  | Waveform Visualizer    |  | Phoneme Heatmap UI   |  |
+|  | Multi-Modal Contrast  |  | Polytonic Greek &      |  | Scaffolded Authentic |  |
+|  | Canvas (2x2 / Aspect  |  | Tiberian Hebrew Script |  | Text Reader (MACULA  |  |
+|  | Strip / Dialogue)     |  | + Audio Waveform HUD   |  | Clause Onion-Peeler) |  |
 |  +-----------+-----------+  +------------+-----------+  +----------+-----------+  |
 +--------------|---------------------------|-------------------------|--------------+
                | Tauri IPC Commands        | Zero-Copy Audio Stream  |
 +--------------v---------------------------v-------------------------v--------------+
 |                         RUST CORE RUNTIME DAEMON (src-tauri)                      |
 |  +-----------------------+  +------------------------+  +----------------------+  |
-|  | Deterministic Lesson  |  | FSRS-rs Multi-Modal    |  | Acoustic Alignment & |  |
-|  | State Machine Engine  |  | Scheduler & Optimizer  |  | GoP Scoring Engine   |  |
+|  | Deterministic Session |  | Pinned fsrs-rs Engine  |  | 5-Stage Acoustic     |  |
+|  | & Remediation Engine  |  | + Sibling Burying      |  | Evaluator + Abstain  |  |
 |  +-----------+-----------+  +------------+-----------+  +----------+-----------+  |
 |              |                           |                         |              |
 |  +-----------v---------------------------v-------------------------v-----------+  |
-|  |              Embedded SQLite 3 (WAL Mode) + Content-Addressed CAS           |  |
-|  |   [Lexemes | UD Paradigms | Visual Quads | FSRS Cards | Phoneme Telemetry]  |  |
+|  |        Dual SQLite 3 Storage (WAL Mode) + App-Level Integrity Verifier      |  |
+|  |  Read-Only: course_<lang>.klpack   |  Read-Write: user_telemetry.db         |  |
 |  +-----------------------------------------------------------------------------+  |
 +-----------------------------------------|-----------------------------------------+
                                           | In-Process FFI / Local UNIX Socket
 +-----------------------------------------v-----------------------------------------+
 |                 LOCAL APPLE SILICON (M1 METAL / ANE / MLX) INFERENCE              |
 |  +-------------------------+ +-------------------------+ +---------------------+  |
-|  | ASR & Word Timestamps   | | Phoneme CTC Posteriors  | | Neural TTS Engine   |  |
-|  | ggml-org/whisper.cpp    | | wav2vec2-xlsr-53-espeak | | Kokoro-82M (MLX)    |  |
-|  | (CoreML ANE + Metal)    | | + DTW Forced Aligner    | | 24kHz Multi-Voice   |  |
+|  | Unconstrained ASR Check | | Phoneme Posterior &     | | Reference Audio     |  |
+|  | ggml-org/whisper.cpp    | | Alignment Confidence    | | Curated Human Clips |  |
+|  | (CoreML ANE + Metal)    | | wav2vec2-xlsr-53-espeak | | + Local TTS Backup  |  |
 |  +-------------------------+ +-------------------------+ +---------------------+  |
 +-----------------------------------------------------------------------------------+
                                           ^
-                                          | Immutable Sealed Course Packs (.klpack)
+                                          | Versioned & Editorially Approved (.klpack)
 +-----------------------------------------|-----------------------------------------+
-|               OFFLINE PROPOSER-VERIFIER CURRICULUM COMPILER (Python/Rust)         |
+|               OFFLINE ASSISTED COURSE COMPILER (Python uv + Rust)                 |
 |  +-----------------------------------------------------------------------------+  |
-|  | Open Data Sources: Kaikki.org (Wiktextract) | Wikidata Lexemes | Tatoeba    |  |
-|  | Mozilla Common Voice | Universal Dependencies | Open Images V7 | Wikimedia  |  |
+|  | Biblical & Classical Corpora: ETCBC BHSA | Clear-Bible MACULA (Greek/Heb)   |  |
+|  | MorphGNT SBLGNT | OpenScriptures morphhb & BDB | Abbott-Smith | UD Treebanks|  |
+|  | Aleph with Beth & Alpha with Angela (CC Scripts/Visuals) | Open Images V7   |  |
 |  +--------------------------------------+--------------------------------------+  |
 |                                         |                                         |
 |  +--------------------------------------v--------------------------------------+  |
-|  | Verifier Gate: MobileCLIP Semantic Margin + UD Syntax Diff + MFA Alignment  |  |
+|  | 6-Part Evidence Gate: Schema + Single-Delta Contrast Check + MobileCLIP     |  |
+|  | Screening + MFA Alignment Confidence + License Audit + Human Review Signoff |  |
 |  +-----------------------------------------------------------------------------+  |
 +-----------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 4. Component Stack & Memory Budget on Apple M1 (16 GB RAM)
+## 4. Reconciled Resource & Latency Engineering Targets on Apple M1 (16 GB RAM)
 
-Every subsystem is selected to maximize inference speed on Apple Silicon (`Metal` GPU + `Apple Neural Engine` + `ARM NEON`) while keeping resident memory minimal:
+To eliminate discrepancies between architectural estimates and benchmark gates, v2.0 defines **one unified resource table** and separates **VAD endpointing window** from **post-endpoint compute latency**:
 
-| Subsystem Layer | Selected Open-Source Technology | License | Execution Backend on M1 | Resident RAM Budget | Primary Role |
+### 4.1 Unified Resident Memory Budget (16 GB MacBook Pro M1)
+* **Hard Architectural Ceiling:** `< 2.0 GB` total resident memory (`RSS` + `Metal` wired buffers) across all runtime processes, leaving `> 14.0 GB` unified memory free for macOS and developer workflows.
+* **Component Breakdown (Target Working Set: `~1.23 GB` when all models are warm):**
+
+| Subsystem Layer | Open-Source Component | License | Execution Backend on M1 | Estimated Resident RAM | Role in Runtime vs. Compiler |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Desktop Shell & UI** | [tauri-apps/tauri](https://github.com/tauri-apps/tauri) (v2) + SolidJS / TypeScript | MIT / Apache-2.0 | Native `WKWebView` + Rust Core | `~95 MB` | Low-latency 60fps UI, audio visualization, keyboard/touch bindings |
-| **Spaced Repetition Core** | [open-spaced-repetition/fsrs-rs](https://github.com/open-spaced-repetition/fsrs-rs) (`fsrs` crate) | MIT | Native Rust (`aarch64-apple-darwin`) | `< 15 MB` | DSR memory state scheduling, review log optimization, simulation |
-| **Orthographic & Word ASR** | [ggml-org/whisper.cpp](https://github.com/ggerganov/whisper.cpp?ref=itsfoss.com) (`whisper-small` / `base` Q5_1) | MIT | CoreML (ANE) + Metal F16 | `~280 MB` | Real-time streaming transcription and word-level boundary detection |
-| **Phoneme CTC Acoustic Model** | [facebook/wav2vec2-xlsr-53-espeak-cv-ft](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft) (INT8/FP16 ONNX) | Apache-2.0 | ONNX Runtime (`CoreMLExecutionProvider`) | `~420 MB` | Language-agnostic IPA frame posteriors for Goodness of Pronunciation (GoP) |
-| **G2P & Phonemic Dictionary** | [espeak-ng/espeak-ng](https://github.com/espeak-ng/espeak-ng) + [TigreGotico/espyak](https://github.com/TigreGotico/espyak) + [dmort27/epitran](https://github.com/dmort27/epitran) | GPLv3 / MIT | Native C FFI / Pure Python (Compiler) | `< 10 MB` | Grapheme-to-Phoneme conversion and articulatory feature lookup |
-| **Local Neural TTS** | [gabrimatic/kokoro-mlx](https://github.com/gabrimatic/kokoro-mlx) / [Neywa-Labs/mlx-audio](https://github.com/Neywa-Labs/mlx-audio) (`Kokoro-82M`) | Apache-2.0 | Apple MLX (Metal GPU) | `~350 MB` | Instant 24 kHz natural speech generation across 54+ voice presets |
-| **Visual Grounding Verifier** | [apple-aiml-research/ml-mobileclip](https://github.com/apple-aiml-research/ml-mobileclip) (`MobileCLIP-S2`) | Apple Sample Code / MIT | Apple MLX / CoreML (Offline Build) | `~310 MB` *(Compiler only)* | Verifying image-sentence correspondence and mining visual distractors |
-| **Offline Forced Alignment** | [Montreal-Forced-Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner) / [lingjzhu/charsiu](https://github.com/lingjzhu/charsiu) | MIT | Kaldi / PyTorch MPS (Offline Build) | `~600 MB` *(Compiler only)* | Pre-computing millisecond phoneme boundaries on reference audio |
-| **Embedded Storage** | SQLite 3 (`rusqlite`, WAL mode, `mmap_size=256MB`) | Public Domain | Native C/Rust in-process | `~60 MB` | Relational storage for lexemes, DAG exercises, FSRS state, and telemetry |
-| **Total Active Runtime** | **All Runtime Processes Combined** | **100% Free / Open** | **M1 Unified Memory** | **`~1.23 GB` Active** | **Leaves `>14.5 GB` unified RAM free on 16 GB MacBook Pro M1** |
+| **Desktop Shell & UI** | [tauri-apps/tauri](https://github.com/tauri-apps/tauri) (v2) + SolidJS / TypeScript | MIT / Apache-2.0 | Native `WKWebView` + Rust Core | `~95 MB` | **Runtime:** 60fps UI, polytonic Greek & pointed Tiberian Hebrew typography |
+| **Spaced Repetition Core** | [open-spaced-repetition/fsrs-rs](https://github.com/open-spaced-repetition/fsrs-rs) (`fsrs` crate, pinned) | MIT | Native Rust (`aarch64-apple-darwin`) | `< 15 MB` | **Runtime:** Per-modality DSR scheduling, sibling burying, parameter fitting |
+| **Unconstrained ASR Check** | [ggml-org/whisper.cpp](https://github.com/ggerganov/whisper.cpp?ref=itsfoss.com) (`whisper-base` / `small` Q5_1) | MIT | CoreML (ANE) + Metal F16 | `~280 MB` | **Runtime (Milestone 3+):** Utterance verification & word boundaries |
+| **Phoneme Posterior Head** | [facebook/wav2vec2-xlsr-53-espeak-cv-ft](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft) (ONNX) | Apache-2.0 | ONNX Runtime (`CoreMLExecutionProvider`) | `~420 MB` | **Runtime (Milestone 3+):** IPA frame posteriors & alignment confidence |
+| **Rule-Based G2P (`grc`/`hbo`)** | Custom Deterministic Rust/Python G2P + [espeak-ng](https://github.com/espeak-ng/espeak-ng) / [epitran](https://github.com/dmort27/epitran) | MIT / GPLv3 | Native Rust / Python | `< 10 MB` | **Both:** Exact Tiberian Hebrew & Restored/Erasmian Koine Greek IPA mapping |
+| **Local Neural TTS** | [gabrimatic/kokoro-mlx](https://github.com/gabrimatic/kokoro-mlx) / [Neywa-Labs/mlx-audio](https://github.com/Neywa-Labs/mlx-audio) + MMS-TTS | Apache-2.0 / CC-BY-NC | Apple MLX / ONNX | `~350 MB` | **Compiler (Primary) / Runtime (Optional):** Synthesizing supplemental audio |
+| **Embedded Storage** | SQLite 3 (`rusqlite`, WAL mode) | Public Domain | Native C/Rust in-process | `~60 MB` | **Runtime:** `.klpack` course reader + `user_telemetry.db` writer |
+| **Visual & Alignment Tools** | [apple-aiml-research/ml-mobileclip](https://github.com/apple-aiml-research/ml-mobileclip) + [Montreal-Forced-Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner) | Apple / MIT | Offline Python/Kaldi | *0 MB at Runtime* (`~900 MB` offline) | **Compiler Only:** Never loaded during study sessions |
+| **Total Warm Runtime** | **All Active Study-Session Processes** | **100% Free** | **M1 Unified Memory** | **`~1.23 GB` Target (`< 2.0 GB` Cap)** | **Verified via `vmmap` / `footprint` in Milestone 1 & 3** |
 
----
+### 4.2 Decomposed Speech Feedback Latency Budget
+Prior drafts conflated user-perceived wait time after stopping speech with compute time after endpoint detection. We strictly decompose total turnaround time $T_{\text{total}}$ into five measurable stages to be benchmarked empirically in Milestone 3:
 
-## 5. Runtime Process Separation: Compiler vs. Interactive Engine
+$$T_{\text{total}} = T_{\text{VAD\_tail}} + T_{\text{SNR\_gate}} + T_{\text{ASR\_verify}} + T_{\text{CTC\_align}} + T_{\text{UI\_render}}$$
 
-A critical architectural mistake in open-source language apps is bundling heavy data-wrangling dependencies (Wiktionary XML dump parsers, Kaldi recipe trainers, multi-gigabyte image indices) into the interactive desktop runtime. KaizenLinguistics splits the system into two cleanly isolated binaries:
-
-### 5.1 `kaizen-compiler` (Offline Course Pack Builder)
-* Written in **Python 3.12+ (managed via `uv`) + Rust CLI helpers**.
-* Ingests raw upstream dumps:
-  * [Kaikki.org JSONL dictionaries](https://kaikki.org/dictionary/rawdata.html) generated by [tatuylonen/wiktextract](https://github.com/tatuylonen/wiktextract) (or pre-indexed [Kaikki-Wiktionary-Ultimate-SQLite](https://huggingface.co/datasets/wave101828228/Kaikki-Wiktionary-Ultimate-SQLite)).
-  * [Wikidata Lexicographical Data](https://www.wikidata.org/wiki/Wikidata:Lexicographical_data) senses and Q-ID concept links.
-  * [Universal Dependencies](https://universaldependencies.org/) treebanks for morphosyntactic templates.
-  * [Tatoeba](https://en.wikipedia.org/wiki/Tatoeba) sentence pairs and [Mozilla Common Voice](https://commonvoice.mozilla.org/) recordings.
-  * [Open Images V7](https://docs.ultralytics.com/datasets/detect/open-images-v7) and Wikimedia Commons visual assets.
-* Runs the **Proposer-Verifier pipeline** (using [MobileCLIP](https://github.com/apple-aiml-research/ml-mobileclip), [Montreal Forced Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner), and [Kokoro-82M MLX](https://github.com/gabrimatic/kokoro-mlx)) to compile deterministic, content-addressed course bundles (`<lang_code>_v1.klpack`, backed by SQLite + Opus audio + WebP images).
-
-### 5.2 `kaizen-app` (Interactive Desktop Immersion Client)
-* Built with [Tauri v2](https://github.com/tauri-apps/tauri) (`Rust` backend + lightweight reactive frontend).
-* Mounts `.klpack` course archives read-only and maintains a private user telemetry database (`user_profile.db`).
-* Executes real-time audio capture, VAD segmentation, [whisper.cpp](https://github.com/ggerganov/whisper.cpp?ref=itsfoss.com) + [wav2vec2-xlsr-53-espeak-cv-ft](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft) phoneme evaluation, and [fsrs-rs](https://github.com/open-spaced-repetition/fsrs-rs) scheduling with zero network calls and sub-50ms UI frame times.
-
----
-
-## 6. Inter-Process & Hardware Data Flow (Real-Time Audio Loop)
-
-During an interactive speaking or pronunciation exercise, latency between the user finishing an utterance and receiving phoneme-colored visual feedback must be **under 250 ms**:
-
-1. **Audio Capture (`cpal` Rust Thread):** Captures microphone input at native sample rate, resamples via SIMD `rubato` to `16,000 Hz` mono `f32`, and writes into a lock-free ring buffer (`rtrb`).
-2. **Streaming VAD & Endpointing:** Frame-level energy + Silero VAD detects voice onset ($t_{\text{onset}}$) and utterance completion ($t_{\text{offset}}$ after $350\text{ ms}$ trailing silence).
-3. **Parallel Acoustic Dispatch:**
-   * **Thread A (`whisper.cpp` CoreML/Metal):** Evaluates orthographic accuracy and word-level timestamps ([Whisper.cpp Review](https://www.promptquorum.com/power-local-llm/whisper-cpp-review)).
-   * **Thread B (`wav2vec2-xlsr-53-espeak-cv-ft` + DTW Aligner):** Computes the $(T \times |\Sigma_{\text{IPA}}|)$ log-posterior matrix, runs constrained Dynamic Time Warping ([Halleck45/OpenPronounce](https://github.com/Halleck45/OpenPronounce)) against the expected reference phoneme sequence $\Phi_{\text{target}}$, and extracts pitch contour $F_0(t)$ via the YIN/pYIN algorithm.
-4. **Deterministic Diagnostic Aggregation:** Rust aggregates per-phoneme Goodness of Pronunciation ($\text{GoP}(\phi_i)$), duration z-scores, and intonation correlation into a structured JSON telemetry payload rendered immediately in the UI as color-coded IPA tokens (`Green` $\ge -1.2$, `Amber` $\in [-2.5, -1.2)$, `Red` $< -2.5$).
+| Stage | Metric Definition | Target Engineering Budget (M1) | Notes |
+| :--- | :--- | :---: | :--- |
+| **1. $T_{\text{VAD\_tail}}$** | Trailing silence window required by VAD to confirm end-of-utterance (unless user releases push-to-talk key) | `300 – 350 ms` *(0 ms on PTT release)* | Supporting spacebar/key **Push-to-Talk (PTT)** release eliminates trailing VAD wait entirely |
+| **2. $T_{\text{SNR\_gate}}$** | Signal-to-noise ratio, clipping, and duration usability check | `< 5 ms` | Immediate abstention if audio is clipped or silent |
+| **3. $T_{\text{ASR\_verify}}$** | Unconstrained `whisper.cpp` check for utterance identity | `< 110 ms` | Runs in parallel with Stage 4 on Metal/CoreML |
+| **4. $T_{\text{CTC\_align}}$** | `wav2vec2-xlsr-53` forward pass + constrained Viterbi/DTW alignment | `< 140 ms` | Parallel with Stage 3; bounded by $\max(T_{\text{ASR}}, T_{\text{CTC}})$ |
+| **5. $T_{\text{UI\_render}}$** | IPC serialization + SolidJS DOM update | `< 15 ms` | Single 60fps frame budget |
+| **Total Post-Endpoint Compute** | $T_{\text{compute}} = T_{\text{total}} - T_{\text{VAD\_tail}}$ | **`< 175 ms` Target** | **`< 525 ms` total wall-clock with auto-VAD, or `< 175 ms` on PTT key release** |

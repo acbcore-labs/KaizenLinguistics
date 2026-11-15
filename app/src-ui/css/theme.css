@@ -1,0 +1,72 @@
+/* KAIZEN LINGUISTICS — Theme & Typography Tokens */
+
+:root[data-theme="vellum"] {
+  --paper-bg: #F4EFE6;
+  --folio-surface: #EAE2D3;
+  --folio-elevated: #FAF7F2;
+  --ink-primary: #161412;
+  --ink-secondary: #4A433B;
+  --ink-muted: #7D7365;
+  --rule-hairline: #C8BDA8;
+  --rule-strong: #8C7F6B;
+  --rubric-vermilion: #B8332A;
+  --rubric-soft: rgba(184, 51, 42, 0.10);
+  --lapis-cobalt: #1D3B6C;
+  --lapis-soft: rgba(29, 59, 108, 0.09);
+  --gold-burnished: #9A7428;
+  --gold-soft: rgba(154, 116, 40, 0.14);
+  --verdigris-pass: #235E4A;
+  --verdigris-soft: rgba(35, 94, 74, 0.11);
+  --shadow-plate: 0 2px 10px rgba(22, 20, 18, 0.05);
+  --shadow-elevated: 0 8px 24px rgba(22, 20, 18, 0.08);
+}
+
+:root[data-theme="basalt"] {
+  --paper-bg: #11100E;
+  --folio-surface: #181613;
+  --folio-elevated: #201D19;
+  --ink-primary: #F0ECE1;
+  --ink-secondary: #B8AEA0;
+  --ink-muted: #736A5E;
+  --rule-hairline: #2E2A24;
+  --rule-strong: #544C40;
+  --rubric-vermilion: #DF564B;
+  --rubric-soft: rgba(223, 86, 75, 0.14);
+  --lapis-cobalt: #6A98D8;
+  --lapis-soft: rgba(106, 152, 216, 0.13);
+  --gold-burnished: #D4AF5A;
+  --gold-soft: rgba(212, 175, 90, 0.15);
+  --verdigris-pass: #47B08C;
+  --verdigris-soft: rgba(71, 176, 140, 0.14);
+  --shadow-plate: 0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-elevated: 0 12px 32px rgba(0, 0, 0, 0.60);
+}
+
+:root {
+  --font-display: "Cormorant Garamond", "Hoefler Text", "EB Garamond", "Palatino", "Georgia", serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-target: "SBL Greek", "SBL Hebrew", "Ezra SIL", "New Athena Unicode", "Frank Ruhl Libre", "Cardo", "EB Garamond", serif;
+  --font-mono: "SF Mono", "JetBrains Mono", "Menlo", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--paper-bg);
+  color: var(--ink-primary);
+  font-family: var(--font-display);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  background-image:
+    radial-gradient(circle at 50% 0%, var(--gold-soft), transparent 70%),
+    linear-gradient(to right, rgba(140, 127, 107, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(140, 127, 107, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 36px 36px, 36px 36px;
+  overflow-x: hidden;
+}

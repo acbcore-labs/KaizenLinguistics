@@ -1,0 +1,162 @@
+/* KAIZEN LINGUISTICS — Tooltips, Guidance Banners & Method Codex */
+
+/* Venetian Scholia Tooltips */
+.scholia-tip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  color: var(--gold-burnished);
+  border: 1px solid var(--gold-burnished);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  cursor: help;
+  position: relative;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.scholia-tip:hover::after,
+.scholia-tip:focus::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--folio-elevated);
+  color: var(--ink-primary);
+  border: 1px solid var(--rule-strong);
+  box-shadow: var(--shadow-elevated);
+  padding: 10px 14px;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-style: italic;
+  line-height: 1.4;
+  white-space: normal;
+  width: 260px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Contextual Guidance Banners */
+.workspace-guidance-banner {
+  background: var(--folio-surface);
+  border-bottom: 1px solid var(--rule-hairline);
+  padding: 10px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  color: var(--ink-secondary);
+}
+
+.guidance-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--rule-hairline);
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.guidance-toggle-btn:hover {
+  background: var(--gold-soft);
+  color: var(--ink-primary);
+}
+
+.guidance-drawer {
+  background: var(--folio-elevated);
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 18px 28px;
+  display: none;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink-primary);
+}
+
+.guidance-drawer.open {
+  display: block;
+}
+
+/* Method Guide (Workspace 5) */
+.method-codex-layout {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.method-section {
+  background: var(--folio-elevated);
+  border: 1px solid var(--rule-strong);
+  box-shadow: var(--shadow-plate);
+  padding: 28px 34px;
+  position: relative;
+}
+
+.method-section::before {
+  content: "+";
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--rule-strong);
+}
+
+.method-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--rule-hairline);
+  padding-bottom: 8px;
+}
+
+.method-prose {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--ink-secondary);
+  margin-bottom: 14px;
+}
+
+.method-prose:last-child {
+  margin-bottom: 0;
+}
+
+.method-quote {
+  border-left: 3px solid var(--gold-burnished);
+  padding-left: 16px;
+  margin: 16px 0;
+  font-style: italic;
+  color: var(--ink-primary);
+}
+
+/* Shortcuts Modal Table */
+.shortcut-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.shortcut-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--rule-hairline);
+  font-size: 0.9rem;
+}
+
+.kbd-badge {
+  background: var(--folio-surface);
+  border: 1px solid var(--rule-strong);
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}

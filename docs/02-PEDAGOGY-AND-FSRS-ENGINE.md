@@ -1,135 +1,114 @@
-# 02 — Dynamic Immersion Pedagogy & Multi-Modal FSRS Scheduling Engine
+# 02 — Contrast-Graph Pedagogy & Pinned FSRS Scheduling Engine (v2.0 — Hardened)
 
 **Project:** KaizenLinguistics  
-**Core Pedagogical Paradigm:** Zero-Translation Inductive Immersion + Coupled Multi-Modal Spaced Repetition  
+**Primary Languages:** Koine Greek (`grc`) & Classical / Biblical Hebrew (`hbo`)  
+**Core Pedagogical Paradigm:** Contrast-Graph Inductive Immersion + Observed-Skill FSRS-6 Scheduling  
 
 ---
 
-## 1. Deconstructing & Advancing "Dynamic Immersion"
+## 1. From "4-Picture Flashcards" to a Formal Contrast Graph
 
-The core insight of [Rosetta Stone's Dynamic Immersion Method](https://www.rosettastone.com/our-method) is that adult learners can acquire a second language ($L_2$) using the same inductive pattern-recognition mechanisms as first-language ($L_1$) acquisition—by binding **visual contexts**, **spoken audio**, and **orthographic text** without $L_1$ translation ([Rosetta Stone Blog: Dynamic Immersion](https://blog.rosettastone.com/dynamic-immersion-learning-with-rosetta-stone/)).
+In v1.0, every exercise was rigidly modeled as a $2 \times 2$ photo grid. As highlighted in architectural review, a static 4-photo grid works well for concrete nouns and physical actions, but fails when teaching **verbal aspect** (e.g., Koine Greek Imperfective vs. Aorist vs. Perfect), **discourse sequentiality** (Biblical Hebrew *Wayyiqtol* narrative chains), or **pragmatic dialogue particles** (`γάρ`, `οὖν`, `μέν... δέ`, `הִנֵּה`, `כִּי`).
 
-However, traditional commercial implementations of Dynamic Immersion exhibit three well-documented structural weaknesses that **KaizenLinguistics** resolves mathematically:
+In v2.0, the native pedagogical representation of KaizenLinguistics is a **Contrast Graph**:
 
-| Classical Rosetta Stone Limitation | KaizenLinguistics Engineering Resolution |
-| :--- | :--- |
-| **1. Rigid, Non-Adaptive Repetition:** Fixed linear lesson sequences under-review difficult items and over-drill mastered items. | **Coupled Multi-Modal FSRS-5 Engine:** Integrates [open-spaced-repetition/fsrs-rs](https://github.com/open-spaced-repetition/fsrs-rs) ([FSRS Algorithm Wiki](https://github.com/open-spaced-repetition/fsrs4anki/wiki/The-Algorithm)) to schedule each concept and grammatical contrast at the exact moment retrievability $R(t, S)$ drops to $0.90$. |
-| **2. Opaque Grammar Induction Stalls:** Complex morphosyntax (e.g., case systems, subjunctive mood, aspectual pairs) can frustrate learners when presented purely via static photos without structural highlighting. | **Inductive Morphosyntactic Diff Highlighting:** Derived from [Universal Dependencies](https://universaldependencies.org/) treebanks, minimal-pair screens dynamically color-code bound morphemes (prefixes, suffixes, case endings, particles) *exclusively in $L_2$* once the learner makes an inductive choice. |
-| **3. Coarse Pass/Fail Speech Grading:** A single opaque percentage bar fails to tell the learner *which* phoneme, vowel length, or tone contour failed. | **Articulatory Phoneme Diagnostics:** Uses [facebook/wav2vec2-xlsr-53-espeak-cv-ft](https://huggingface.co/facebook/wav2vec2-xlsr-53-espeak-cv-ft) + DTW ([Halleck45/OpenPronounce](https://github.com/Halleck45/OpenPronounce)) to pinpoint the exact mispronounced IPA phone and trigger an immediate minimal-pair remediation drill. |
+```
+Semantic Situation / Communicative Intent
+    ↕ expressed by
+Language-Specific Morphosyntactic Forms (grc / hbo)
+    ↕ realized as
+Multi-Modal Stimulus (Visual Scenes, Aspect Timelines, Audio Pairs, Short Dialogues)
+    ↕ distinguished through
+Controlled Minimal-Contrast Exercises (holding all non-target variables constant)
+    ↕ observed through
+Learner Responses (with recorded latency, retries, and acoustic/orthographic telemetry)
+```
+
+### 1.1 Five Fundamental Axioms of the Contrast Graph
+1. **Concept Identity $\neq$ Word Identity:** A single semantic situation (e.g., *proclaiming good news*) maps to distinct language-specific lexemes and argument frames (`εὐαγγελίζομαι + Dat/Acc` in Greek vs. `בִּשֵּׂר` *Piel* in Hebrew).
+2. **Strict Single-Delta Contrast Design (No Confounded Variables):**
+   * *The Confounding Bug to Avoid:* Contrasting Spanish *un caballo blanco* (masc.) with *una casa blanca* (fem.) changes **both** the noun lexeme and the grammatical gender simultaneously—the learner cannot tell whether `-o/-a` marks gender or object type.
+   * *The Hardened Rule:* Every minimal-pair contrast exercise must hold the lexical roots or predicates **strictly invariant** across panels so the targeted grammatical feature is the *only* covarying linguistic signal.
+3. **Presentation Geometry Matches the Contrast Type:**
+   * **2x2 Scene Grid (`QUAD_SCENE`):** For lexical nouns, verbs, spatial prepositions, number, gender, and Agent/Patient case assignment.
+   * **3-Frame Aspectual Timeline (`ASPECT_STRIP`):** For contrasting ongoing process (Greek Present/Imperfect; Hebrew Participle/*Yiqtol*), bounded event snapshot (Greek Aorist; Hebrew *Qatal*), and resultant state (Greek Perfect).
+   * **2-Turn Dialogue / Discourse Micro-Scene (`DIALOGUE_PAIR`):** For questions/answers, imperatives/cohortatives (`שְׁמַע` vs. `נִשְׁמְעָה`), and discourse connectors (`οὖν`, `γάρ`, `וַיְהִי`, `הִנֵּה`).
+4. **An Exercise Measures a Contrast; It Is Not the Skill Itself:** Passing a single multiple-choice screen is a noisy observation of recognition, not proof of mastery. Mastery requires successful generalization to held-out instantiations of the same contrast.
 
 ---
 
-## 2. Formal Instructional Primitives: The 2x2 Minimal-Pair Quad
+## 2. Worked Unconfounded Contrast Examples (`grc` & `hbo`)
 
-The fundamental pedagogical atom of KaizenLinguistics is the **Visual-Semantic Minimal-Pair Quad** $\mathcal{Q}$. Rather than presenting isolated flashcards, every screen presents a structured $2 \times 2$ matrix of four visual scenes:
+### 2.1 Koine Greek Case & Word-Order Independence (`QUAD_SCENE`)
+English speakers instinctively interpret the first noun in a sentence as the Subject (Agent). In Koine Greek ([Clear-Bible/macula-greek](https://github.com/Clear-Bible/macula-greek)), case endings—not word order—determine who acts upon whom. To force the learner's brain to parse Nominative (`-ος`) vs. Accusative (`-ον`), the exercise holds the two participants and the verb constant while crossing **Agent/Patient role** with **Word Order**:
 
-$$\mathcal{Q} = \left\{ (I_k, S_k, A_k, \mathcal{T}_k) \right\}_{k=1}^{4}$$
+* **Scene A (Angel sees Brother):**
+  * Form 1 (SVO): `ὁ ἄγγελος βλέπει τὸν ἀδελφόν.`
+  * Form 2 (OVS — same meaning!): `τὸν ἀδελφόν βλέπει ὁ ἄγγελος.`
+* **Scene B (Brother sees Angel):**
+  * Form 3 (SVO): `ὁ ἀδελφός βλέπει τὸν ἄγγελον.`
+  * Form 4 (OVS — same meaning!): `τὸν ἄγγελον βλέπει ὁ ἀδελφός.`
 
-Where:
-* $I_k$: Grounded visual scene (sourced from [Open Images V7](https://docs.ultralytics.com/datasets/detect/open-images-v7) or Wikimedia Commons and verified via [Apple MobileCLIP](https://github.com/apple-aiml-research/ml-mobileclip)).
-* $S_k$: Target $L_2$ orthographic string (token-segmented with [Universal Dependencies](https://universaldependencies.org/) lemma and morphological feature tags).
-* $A_k$: Time-aligned native or neural reference audio ([Mozilla Common Voice](https://commonvoice.mozilla.org/) or [Kokoro-82M MLX](https://github.com/gabrimatic/kokoro-mlx)).
-* $\mathcal{T}_k$: Phonemic IPA alignment tier $\Phi_k = \{(\phi_{k,m}, t_{\text{start}}, t_{\text{end}})\}$ generated via [espeak-ng](https://github.com/espeak-ng/espeak-ng) and [Montreal Forced Aligner](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner).
+Here, lexical items (`ἄγγελος`, `ἀδελφός`, `βλέπει`) are 100% invariant; the learner *must* attend to `ὁ ... -ος` (Agent) vs. `τὸν ... -ον` (Patient) to select the right scene.
 
-### 2.1 How Grammatical Meaning is Induced Without Translation ($L_1 = \varnothing$)
+### 2.2 Biblical Hebrew Gender & Verbal Agreement (`QUAD_SCENE`)
+Following the proven visual-immersion progression of [Aleph with Beth (`freehebrew.online`)](https://dantes.io/resource/aleph-with-beth-free-biblical-hebrew-video-course-6abc0ecdf769b646f61723db) and [ETCBC/bhsa](https://github.com/ETCBC/bhsa), gender and number agreement are introduced with invariant actions across matched human subjects:
 
-To teach a new lexical item or grammatical feature $\Delta f$, the compiler constructs a Quad where pairs of panels differ by **Controlled One-Hot Semantic or Morphological Contrasts** ($\Delta f$):
+* **Panel 1 (Masc. Sg.):** `הַנַּעַר יֹשֵׁב עַל הָאֶבֶן` (*The boy is sitting on the stone* — zero ending on participle `יֹשֵׁב`)
+* **Panel 2 (Fem. Sg.):** `הַנַּעֲרָה יֹשֶׁבֶת עַל הָאֶבֶן` (*The girl is sitting on the stone* — `-ָה` noun + `-ֶת` fem. sg. participle)
+* **Panel 3 (Masc. Pl.):** `הַנְּעָרִים יֹשְׁבִים עַל הָאֶבֶן` (*The boys are sitting on the stone* — `-ִים` masc. pl. across noun & participle)
+* **Panel 4 (Fem. Pl.):** `הַנְּעָרוֹת יֹשְׁבוֹת עַל הָאֶבֶן` (*The girls are sitting on the stone* — `-וֹת` fem. pl. across noun & participle)
 
-1. **Lexical Noun/Verb Induction (1-Variable Contrast):**
-   * Panel 1: *The boy is running.*
-   * Panel 2: *The girl is running.* ($\Delta = \text{Subject Gender/Lexeme}$)
-   * Panel 3: *The boy is eating.* ($\Delta = \text{Verb Predicate}$)
-   * Panel 4: *The girl is eating.* ($\Delta = \text{2x2 Factorial Product}$)
-2. **Morphological Inflection Induction (Number / Gender / Case):**
-   * Panel 1: *Un caballo blanco* (1 white horse)
-   * Panel 2: *Dos caballos blancos* (2 white horses — highlights `-s` plural agreement across noun and adjective)
-   * Panel 3: *Una casa blanca* (1 white house — highlights `-a` feminine agreement)
-   * Panel 4: *Dos casas blancas* (2 white houses — highlights `-as` feminine plural agreement)
-3. **Syntactic & Aspectual Induction (Tense / Aspect / Prepositions):**
-   * Sequences of 3 chronological frames depicting an action *about to happen* (Future / Prospective), *in progress* (Present Continuous), and *completed* (Past / Perfective).
+### 2.3 Biblical Hebrew *Binyanim* Valency Contrast (`QUAD_SCENE`)
+To teach how Hebrew verbal stems (*binyanim*) transform causation and voice on the exact same triliteral root (e.g., `י-שׁ-ב` *to sit/dwell* or `שׁ-מ-ע` *to hear*):
+* **Qal (Simple Active):** `הַיֶּלֶד יָשַׁב עַל הַכִּסֵּא` (*The child sat on the chair*)
+* **Hiphil (Causative Active):** `הָאִשָּׁה הוֹשִׁיבָה אֶת־הַיֶּלֶד עַל הַכִּסֵּא` (*The woman seated [caused to sit] the child on the chair* — highlights `הוֹ- / -ִ-` *Hiphil* template + `אֶת־` object marker).
 
 ---
 
 ## 3. Six-Stage Scaffolded Modality Progression
 
-Each concept node $c \in \mathcal{C}$ progresses through six ordered cognitive stages within a unit before graduating to long-term FSRS maintenance. No stage uses $L_1$ text:
+Each contrast node progresses through six ordered cognitive stages before graduating to long-term FSRS review:
 
-| Stage | Modality Code | Stimulus Presented to Learner | Required Learner Action | Cognitive Objective |
+| Stage | Modality Code | Stimulus Presented | Learner Action | Tracked FSRS Skill Card |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stage 1: Bimodal Exposure & Discovery** | `EXP_BIMODAL` | 4 Images + Spoken $L_2$ Audio + Written $L_2$ Text | Select the matching image $I^*$ from the $2\times 2$ grid | Bind visual concept to simultaneous phonetic and orthographic form |
-| **Stage 2: Pure Auditory Comprehension** | `COMP_LISTEN` | 4 Images + Spoken $L_2$ Audio *(No Text)* | Select the matching image $I^*$ using auditory cues alone | Prevent orthographic dependency; train real-time phoneme stream parsing |
-| **Stage 3: Pure Orthographic Reading** | `COMP_READ` | 4 Images + Written $L_2$ Text *(Audio plays only after selection)* | Select the matching image $I^*$ from written morphology | Train visual recognition of inflections, particles, and script |
-| **Stage 4: Scaffolded Imitation Speaking** | `PROD_REPEAT` | Target Image $I^*$ + Reference Audio $A^*$ + IPA/Waveform Prompt | Speak the phrase aloud into the microphone | Calibrate articulatory motor patterns with immediate GoP phoneme feedback |
-| **Stage 5: Unprompted Visual Speaking** | `PROD_SPEAK` | Target Image $I^*$ *(Contextual visual cue only; no audio prompt)* | Produce the correct $L_2$ utterance from memory | Active spoken retrieval + morphosyntactic assembly + pronunciation scoring |
-| **Stage 6: Cloze & Orthographic Dictation** | `PROD_WRITE` | Target Image $I^*$ + Spoken Audio $A^*$ | Type or assemble the exact $L_2$ orthographic string (including diacritics) | Consolidate spelling, morphological endings, and orthographic precision |
+| **1. Bimodal Discovery** | `EXP_BIMODAL` | Visual Contrast + Spoken $L_2$ Audio + Written $L_2$ Text | Select matching scene + inspect highlighted morpheme contrast | *(Onboarding scaffold)* |
+| **2. Auditory Discrimination** | `COMP_LISTEN` | Visual Contrast + Spoken $L_2$ Audio *(No Text)* | Identify the meaning purely from spoken phonology and morphology | `LISTEN` |
+| **3. Orthographic Reading** | `COMP_READ` | Visual Contrast + Written $L_2$ Text *(Audio plays post-choice)* | Identify the meaning from script, diacritics/niqqud, and case/stem endings | `READ` |
+| **4. Recorded Imitation** | `PROD_REPEAT` | Target Scene + Reference Audio + Waveform/IPA Prompt | Speak phrase aloud; compare learner recording side-by-side with native audio | `SPEAK` *(Scaffold)* |
+| **5. Unprompted Spoken Recall** | `PROD_SPEAK` | Target Scene + Contextual Cue *(No reference audio prompt)* | Produce the target $L_2$ utterance aloud from memory | `SPEAK` |
+| **6. Orthographic Construction** | `PROD_WRITE` | Target Scene + Spoken Audio | Assemble morpheme tiles or type full $L_2$ text with vowels/accents | `WRITE` |
 
 ---
 
-## 4. Mathematical Specification of the Coupled FSRS Engine
+## 4. Pinned FSRS-6 Specification & Independent Skill Histories
 
-KaizenLinguistics uses the **Free Spaced Repetition Scheduler** ([FSRS Algorithm Wiki](https://github.com/open-spaced-repetition/fsrs4anki/wiki/The-Algorithm), implemented in Rust via [open-spaced-repetition/fsrs-rs](https://github.com/open-spaced-repetition/fsrs-rs)), which is grounded in the **DSR (Difficulty, Stability, Retrievability)** Three-Component Model of Memory ([ABC of FSRS](https://github.com/open-spaced-repetition/fsrs4anki/wiki/abc-of-fsrs)).
+### 4.1 Resolution of FSRS Version & Parameter Count
+In v1.0, the text referred to "FSRS-5" while citing a 21-parameter vector `w0..20` with trainable decay. Per the upstream [FSRS Algorithm Specification](https://github.com/open-spaced-repetition/fsrs4anki/wiki/The-Algorithm):
+* **FSRS-5** uses **19 parameters** (`w[0]..w[18]`).
+* **FSRS-6** uses **21 parameters** (`w[0]..w[20]`), where `w[20]` is the individual trainable forgetting-curve decay parameter:
+  $$R(t, S) = \left(1 + \text{factor} \cdot \frac{t}{S}\right)^{-w_{20}}, \quad \text{where } \text{factor} = 0.9^{-1/w_{20}} - 1$$
 
-### 4.1 Core FSRS Memory Equations
+**Hardened Engineering Rule:** KaizenLinguistics pins a single exact version of the Rust [`fsrs` crate (`open-spaced-repetition/fsrs-rs`)](https://github.com/open-spaced-repetition/fsrs-rs) in `Cargo.toml` and delegates all stability ($S$), difficulty ($D$), and retrievability ($R$) calculations directly to the upstream crate functions (`FSRS::next_states`) rather than re-implementing hand-rolled floating-point equations. Every logged review records the exact `fsrs_crate_version` and serialized parameter vector `w` used at the moment of scheduling.
 
-For any individual skill card $k$, its memory state at time $t$ (days elapsed since last review) is parameterized by:
-* **Stability ($S > 0$):** The time interval (in days) at which the probability of successful recall (Retrievability $R$) equals $90\%$.
-* **Difficulty ($D \in [1, 10]$):** The intrinsic complexity of the item for the learner.
-* **Retrievability ($R \in (0, 1]$):** The instantaneous probability of recall after elapsed time $t$, governed by the power-law forgetting curve in FSRS-4.5 / FSRS-5 ([FSRS Algorithm Wiki](https://github.com/open-spaced-repetition/fsrs4anki/wiki/The-Algorithm)):
+### 4.2 Replacing Unvalidated Cross-Modal Stability Mutation with Sibling Burying
+Architectural review rightly identified a major risk in v1.0's proposed Collateral Transfer Matrix $\mathbf{\Gamma}$: automatically increasing `SPEAK` or `WRITE` stability whenever a learner passes a passive `LISTEN` multiple-choice card is an unvalidated hypothesis that can mask weak active production.
 
-$$R(t, S) = \left(1 + \text{FACTOR} \cdot \frac{t}{S}\right)^{\text{DECAY}}$$
-
-Where $\text{DECAY} = -w_{20}$ (default $-0.5$) and $\text{FACTOR} = 0.9^{1/\text{DECAY}} - 1$ (default $\frac{19}{81}$), ensuring $R(S, S) = 0.90$.
-
-When a learner completes an exercise with discrete rating $G \in \{1 \text{ (Again)}, 2 \text{ (Hard)}, 3 \text{ (Good)}, 4 \text{ (Easy)}\}$:
-* **Next Difficulty $D'$:**Updated via mean-reverting linear damping toward initial difficulty $D_0(4)$:
-  $$D' = w_7 \cdot D_0(4) + (1 - w_7) \cdot \left(D - w_6 \cdot (G - 3)\right)$$
-* **Post-Recall Stability $S'_r(D, S, R, G)$ (for $G \in \{2, 3, 4\}$):**
-  $$S'_r(D, S, R, G) = S \cdot \left( 1 + e^{w_8} \cdot (11 - D) \cdot S^{-w_9} \cdot \left(e^{w_{10}(1 - R)} - 1\right) \cdot w_{\text{penalty/bonus}}(G) \right)$$
-* **Post-Lapse Stability $S'_f(D, S, R)$ (for $G = 1$):**
-  $$S'_f(D, S, R) = w_{11} \cdot D^{-w_{12}} \cdot \left((S + 1)^{w_{13}} - 1\right) \cdot e^{w_{14}(1 - R)}$$
-
-### 4.2 Multi-Modal Skill Coupling Matrix
-
-Unlike standard flashcard apps where cards are isolated, a linguistic concept $c$ in KaizenLinguistics has **four distinct but coupled skill cards**:
-
-$$\mathbf{S}_c = \begin{bmatrix} S_{c,\text{listen}} \\ S_{c,\text{read}} \\ S_{c,\text{speak}} \\ S_{c,\text{write}} \end{bmatrix}$$
-
-When the learner reviews modality $m \in \{\text{listen}, \text{read}, \text{speak}, \text{write}\}$ and achieves stability increment $\Delta S_{c,m} = S'_{c,m} - S_{c,m}$ (with $G \ge 3$), passive collateral credit is propagated to sibling modalities $n \neq m$ using a conservative **Collateral Transfer Matrix** $\mathbf{\Gamma}$ so the user is not spammed with redundant reviews of the same word on the same day:
-
-$$S_{c,n} \leftarrow S_{c,n} + \gamma_{m \to n} \cdot \max(0, \Delta S_{c,m}) \cdot (1 - R_{c,n})$$
-
-| Active Reviewed Modality ($m$) | $\to \text{Listen}$ ($\gamma_{m,\text{listen}}$) | $\to \text{Read}$ ($\gamma_{m,\text{read}}$) | $\to \text{Speak}$ ($\gamma_{m,\text{speak}}$) | $\to \text{Write}$ ($\gamma_{m,\text{write}}$) | Pedagogical Rationale |
-| :--- | :---: | :---: | :---: | :---: | :--- |
-| **Listening (`COMP_LISTEN`)** | `1.00` | `0.15` | `0.10` | `0.05` | Receptive audio strengthens phonological representation, slightly aiding speaking |
-| **Reading (`COMP_READ`)** | `0.10` | `1.00` | `0.05` | `0.20` | Receptive orthography partially reinforces spelling recall |
-| **Speaking (`PROD_SPEAK`)** | `0.35` | `0.15` | `1.00` | `0.10` | Active spoken production strongly reinforces auditory recognition |
-| **Writing (`PROD_WRITE`)** | `0.15` | `0.40` | `0.10` | `1.00` | Active orthographic dictation strongly reinforces reading recognition |
-
-*(Note: Active production modalities `PROD_SPEAK` and `PROD_WRITE` can never reach "Mastered" status purely via passive transfer from `COMP_LISTEN` or `COMP_READ`; $\gamma$ only nudges sibling intervals when $R_{c,n} < 0.95$ to prevent same-session collision).*
+In v2.0, we enforce **Strict Observation-Driven Scheduling**:
+1. **Separate Modality Histories:** Each `(language_code, concept_id, modality)` tuple (`LISTEN`, `READ`, `SPEAK`, `WRITE`) is an independent FSRS card whose stability $S$ and difficulty $D$ are updated **if and only if that specific modality was directly tested**.
+2. **Same-Session Sibling Burying / Spacing:** To prevent a learner from seeing the exact same sentence in `LISTEN`, `READ`, `SPEAK`, and `WRITE` back-to-back on the same day, when modality $m$ of concept $c$ is reviewed at timestamp $t_{\text{now}}$, any other due sibling card $n \neq m$ of the same concept $c$ is temporarily **buried (deferred) by a minimum spacing window** $\Delta t_{\text{bury}} = 24\text{ hours}$ without falsifying its underlying stability $S_{c,n}$!
+3. **Shadow-Mode Transfer Logging (Experimental Telemetry Only):** During Milestone 4+, a background evaluator can log predicted cross-modality retrievability $\hat{R}_{c,n}$ prior to direct testing of modality $n$ to measure empirical correlation across skills, without altering due dates until statistically validated on personal review history.
 
 ---
 
-## 5. Deterministic Mapping from Continuous Telemetry to FSRS Grades ($G \in \{1..4\}$)
+## 5. Calibrated Mapping from Telemetry to FSRS Grades ($G \in \{1..4\}$)
 
-In commercial Rosetta Stone, user performance is never fed into an explicit psychomotor memory model. In KaizenLinguistics, the learner never manually clicks "Hard / Good / Easy" buttons (which introduces metacognitive bias). Instead, the Rust engine **computes the FSRS grade $G$ deterministically** from objective response telemetry:
-
-### 5.1 Receptive Modalities (`COMP_LISTEN`, `COMP_READ`)
-Given choice accuracy $a \in \{0, 1\}$, response latency $t_{\text{resp}}$ (in milliseconds), and the learner's rolling median latency $\mu_{\text{lat}}$ for that sentence length:
-* **$G = 1$ (`Again`):** $a = 0$ (Selected an incorrect distractor panel in the $2\times 2$ quad).
-* **$G = 2$ (`Hard`):** $a = 1$, but required audio replay $\ge 2$ times OR $t_{\text{resp}} > 2.2 \cdot \mu_{\text{lat}}$.
-* **$G = 3$ (`Good`):** $a = 1$, zero or one audio replay, and $0.8 \cdot \mu_{\text{lat}} \le t_{\text{resp}} \le 2.2 \cdot \mu_{\text{lat}}$.
-* **$G = 4$ (`Easy`):** $a = 1$, zero audio replays, first-attempt selection with $t_{\text{resp}} < 0.8 \cdot \mu_{\text{lat}}$.
-
-### 5.2 Productive Speaking Modality (`PROD_SPEAK` via OpenTruAccent)
-Given word-level transcription match $W_{\text{match}}$, utterance mean Goodness of Pronunciation $\overline{\text{GoP}}$, and minimum critical phoneme score $\min_m \text{GoP}(\phi_m)$:
-* **$G = 1$ (`Again`):** Lexical mismatch ($W_{\text{match}} = 0$) OR $\overline{\text{GoP}} < -2.5$ OR any phoneme contrast critical to grammatical meaning (e.g., plural `/s/`, tense vowel) scores $< -3.0$.
-* **$G = 2$ (`Hard`):** Correct words spoken ($W_{\text{match}} = 1$), passed on 2nd or 3rd retry, or $-2.5 \le \overline{\text{GoP}} < -1.4$.
-* **$G = 3$ (`Good`):** First-attempt pass with $-1.4 \le \overline{\text{GoP}} < -0.6$ and all phonemes $> -2.0$.
-* **$G = 4$ (`Easy`):** First-attempt native-like fluency with $\overline{\text{GoP}} \ge -0.6$, speech rate within $\pm 20\%$ of reference speaker, and intonation correlation $r_{F_0} \ge 0.80$.
-
-### 5.3 Productive Writing / Dictation Modality (`PROD_WRITE`)
-Given character-level Damerau-Levenshtein distance $d_{\text{DL}}(\hat{S}, S^*)$ and diacritic/accent accuracy:
-* **$G = 1$ (`Again`):** $d_{\text{DL}} > 2$ or wrong morphological inflection suffix.
-* **$G = 2$ (`Hard`):** Correct stem and inflection, but $d_{\text{DL}} \in \{1, 2\}$ (e.g., missing diacritic/accent mark corrected on immediate retry).
-* **$G = 3$ (`Good`):** Exact character match ($d_{\text{DL}} = 0$) on first attempt within normal typing cadence.
-* **$G = 4$ (`Easy`):** Exact character match ($d_{\text{DL}} = 0$) with zero backspaces and typing speed above 75th percentile.
+To avoid noisy or punitive grading while keeping review sessions frictionless:
+* **Receptive Modalities (`COMP_LISTEN`, `COMP_READ`):**
+  * **$G = 1$ (`Again`):** Incorrect contrast panel selected.
+  * **$G = 2$ (`Hard`):** Correct panel selected, but required $\ge 2$ audio replays or response latency $> 2.5\times$ the learner's rolling median for that clause length.
+  * **$G = 3$ (`Good`):** Correct first-attempt selection within normal latency bounds ($0.75\times \text{ to } 2.5\times$ median).
+  * **$G = 4$ (`Easy`):** Instantaneous first-attempt selection ($< 0.75\times$ median) with zero audio replays.
+* **Productive Modalities (`PROD_SPEAK`, `PROD_WRITE`):**
+  * During **Milestone 1–2 (Pre-Calibration)** and whenever the acoustic engine returns **`ABSTAIN / UNABLE_TO_ASSESS`**, the UI plays the learner's recorded audio immediately followed by the native reference audio (highlighting the target morphological contrast) and presents a transparent **4-button self-grade bar (`1: Again`, `2: Hard`, `3: Good`, `4: Easy`)**.
+  * Once the acoustic engine passes empirical calibration in **Milestone 3**, automated grade proposals are pre-selected as defaults that the learner can accept with a single `Space/Enter` tap or override if a microphone glitch occurred.

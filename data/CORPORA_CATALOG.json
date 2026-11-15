@@ -1,0 +1,112 @@
+{
+  "schema_version": "2.0",
+  "target_languages": [
+    {
+      "iso_639_3": "grc",
+      "name": "Koine Greek (Hellenistic / New Testament & Septuagint)",
+      "default_phonology_profile": "RESTORED_KOINE_1C",
+      "supported_profiles": ["RESTORED_KOINE_1C", "ERASMIAN", "MODERN"],
+      "repositories": [
+        {
+          "id": "morphgnt_sblgnt",
+          "name": "MorphGNT SBL Greek New Testament",
+          "url": "https://github.com/morphgnt/sblgnt",
+          "license": "CC-BY-SA-3.0",
+          "role": "Word-by-word POS, person, tense, voice, mood, case, number, gender, and lemma"
+        },
+        {
+          "id": "clear_bible_macula_greek",
+          "name": "Clear-Bible MACULA Greek Syntax Trees & Semantic Domains",
+          "url": "https://github.com/Clear-Bible/macula-greek",
+          "license": "CC-BY-4.0",
+          "role": "Constituency/dependency syntax trees, Louw-Nida semantic domains, Agent/Patient roles, and pronoun referents"
+        },
+        {
+          "id": "morphgnt_lexicon",
+          "name": "MorphGNT Morphological Lexicon",
+          "url": "https://github.com/morphgnt/morphological-lexicon",
+          "license": "CC-BY-SA-4.0",
+          "role": "Principal parts, derivational families, and inflectional paradigms"
+        },
+        {
+          "id": "abbott_smith_lexicon",
+          "name": "Abbott-Smith Manual Greek Lexicon of the New Testament",
+          "url": "https://github.com/translatable-exegetical-tools/Abbott-Smith",
+          "license": "Public-Domain",
+          "role": "Comprehensive TEI XML lexical definitions and Septuagint (LXX) background"
+        },
+        {
+          "id": "ud_ancient_greek_proiel",
+          "name": "Universal Dependencies Ancient Greek PROIEL",
+          "url": "https://github.com/UniversalDependencies/UD_Ancient_Greek-PROIEL",
+          "license": "CC-BY-NC-SA-4.0",
+          "role": "CoNLL-U dependency parses and information structure annotations"
+        },
+        {
+          "id": "alpha_with_angela",
+          "name": "Alpha with Angela (Free Greek Forever)",
+          "url": "https://freegreek.online/about/",
+          "license": "CC-BY-SA-4.0",
+          "role": "Zero-L1 communicative visual-audio immersion lessons and graded scripts in Restored Koine"
+        },
+        {
+          "id": "everyday_koine",
+          "name": "Everyday Koine (kwozymoto/koine-greek)",
+          "url": "https://github.com/kwozymoto/koine-greek",
+          "license": "CC-BY-4.0",
+          "role": "27 offline graded chapters, paradigm drills, and Dodson Public Domain lexicon"
+        }
+      ]
+    },
+    {
+      "iso_639_3": "hbo",
+      "name": "Classical / Biblical Hebrew (Masoretic Tiberian)",
+      "default_phonology_profile": "TIBERIAN_MASORETIC",
+      "supported_profiles": ["TIBERIAN_MASORETIC", "ACADEMIC_SEPHARDIC"],
+      "repositories": [
+        {
+          "id": "etcbc_bhsa",
+          "name": "ETCBC Biblia Hebraica Stuttgartensia Amstelodamensis (BHSA)",
+          "url": "https://github.com/ETCBC/bhsa",
+          "license": "CC-BY-NC-4.0",
+          "role": "Text-Fabric linguistic database with word, phrase, clause, Binyan, and discourse-hierarchy annotations"
+        },
+        {
+          "id": "clear_bible_macula_hebrew",
+          "name": "Clear-Bible MACULA Hebrew Syntax Trees & UBS SDBH",
+          "url": "https://github.com/Clear-Bible/macula-hebrew",
+          "license": "CC-BY-4.0",
+          "role": "Westminster Leningrad Codex syntax trees, Semantic Dictionary of Biblical Hebrew domains, and participant referent tracking"
+        },
+        {
+          "id": "openscriptures_morphhb",
+          "name": "Open Scriptures Hebrew Bible (OSHB)",
+          "url": "https://github.com/openscriptures/morphhb",
+          "license": "Public-Domain (WLC) / CC-BY-4.0 (Morph)",
+          "role": "OSIS XML Hebrew Bible with full Tiberian niqqud, cantillation hierarchy (MAPM), and morphological tags"
+        },
+        {
+          "id": "openscriptures_hebrew_lexicon",
+          "name": "OpenScriptures Hebrew Lexicon (BDB + Strong's)",
+          "url": "https://github.com/openscriptures/HebrewLexicon",
+          "license": "Public-Domain / CC-BY-4.0",
+          "role": "Brown-Driver-Briggs (BDB), HebrewStrong.xml, and LexicalIndex.xml root mappings"
+        },
+        {
+          "id": "ud_ancient_hebrew_ptnk",
+          "name": "Universal Dependencies Ancient Hebrew PTNK",
+          "url": "https://github.com/UniversalDependencies/UD_Ancient_Hebrew-PTNK",
+          "license": "CC-BY-SA-4.0",
+          "role": "CoNLL-U dependency trees for Pentateuch and Hebrew Bible"
+        },
+        {
+          "id": "aleph_with_beth",
+          "name": "Aleph with Beth (Free Hebrew Forever)",
+          "url": "https://freehebrew.online/the-divine-name/",
+          "license": "CC-BY-SA-4.0",
+          "role": "100+ sequential zero-L1 visual-audio Biblical Hebrew lessons, scripts, and quizzes"
+        }
+      ]
+    }
+  ]
+}

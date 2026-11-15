@@ -1,0 +1,268 @@
+/* KAIZEN LINGUISTICS — Application Shell & Workspace Layout */
+
+.colophon-bar {
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--folio-elevated);
+  display: grid;
+  grid-template-columns: auto auto auto 1fr auto;
+  align-items: stretch;
+  min-height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.colophon-brand {
+  padding: 10px 22px;
+  border-right: 1px solid var(--rule-hairline);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.brand-overline {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rubric-vermilion);
+  font-weight: 600;
+}
+
+.brand-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-primary);
+  line-height: 1.1;
+}
+
+/* Active Language Picker in Header */
+.language-selector-block {
+  padding: 0 16px;
+  border-right: 1px solid var(--rule-hairline);
+  display: flex;
+  align-items: center;
+  background: var(--folio-surface);
+}
+
+.active-lang-btn {
+  background: var(--folio-elevated);
+  border: 1px solid var(--rule-strong);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--ink-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.15s ease;
+}
+
+.active-lang-btn:hover {
+  background: var(--gold-soft);
+  border-color: var(--gold-burnished);
+}
+
+.lang-badge {
+  font-family: var(--font-target);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--lapis-cobalt);
+}
+
+.lang-caret {
+  font-size: 0.65rem;
+  color: var(--ink-muted);
+}
+
+/* Primary Workspace Navigation Tabs */
+.workspace-tabs {
+  display: flex;
+  align-items: stretch;
+  padding: 0 12px;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--ink-primary);
+  background: var(--gold-soft);
+}
+
+.tab-btn.active {
+  color: var(--ink-primary);
+  font-weight: 700;
+  border-bottom-color: var(--rubric-vermilion);
+  background: var(--folio-surface);
+}
+
+.tab-num {
+  font-size: 0.65rem;
+  color: var(--rubric-vermilion);
+  font-weight: 600;
+}
+
+/* Header Right Actions */
+.colophon-right {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+  border-left: 1px solid var(--rule-hairline);
+}
+
+.header-action-btn {
+  background: var(--paper-bg);
+  border: 1px solid var(--rule-hairline);
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.header-action-btn:hover {
+  color: var(--ink-primary);
+  background: var(--gold-soft);
+  border-color: var(--gold-burnished);
+}
+
+.help-shortcut-btn {
+  background: var(--rubric-vermilion);
+  color: #fff;
+  border: 1px solid var(--rubric-vermilion);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.help-shortcut-btn:hover {
+  opacity: 0.88;
+}
+
+/* Main Workspace Containers */
+.workspace-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: calc(100vh - 64px);
+}
+
+.workspace-panel {
+  display: none;
+  flex: 1;
+  width: 100%;
+}
+
+.workspace-panel.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 16, 14, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-dialog {
+  background: var(--folio-elevated);
+  border: 2px solid var(--rule-strong);
+  box-shadow: var(--shadow-elevated);
+  max-width: 640px;
+  width: 100%;
+  padding: 28px 32px;
+  position: relative;
+}
+
+.modal-dialog::before,
+.modal-dialog::after {
+  content: "+";
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--rule-strong);
+}
+.modal-dialog::before { top: 8px; left: 10px; }
+.modal-dialog::after { bottom: 8px; right: 10px; }
+
+.modal-header {
+  border-bottom: 1px solid var(--rule-strong);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.modal-close-btn:hover {
+  color: var(--rubric-vermilion);
+}
+
+@media (max-width: 960px) {
+  .colophon-bar {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .workspace-tabs {
+    border-top: 1px solid var(--rule-hairline);
+    padding: 8px;
+  }
+}

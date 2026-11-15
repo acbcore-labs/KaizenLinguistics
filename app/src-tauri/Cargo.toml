@@ -1,0 +1,22 @@
+[package]
+name = "kaizen-core"
+version = "0.2.0"
+edition = "2021"
+description = "KaizenLinguistics Rust Core Runtime: Dual-DB SQLite Engine, Pinned FSRS-6 Scheduler with Sibling Burying, Deterministic Event Replay, and 5-Stage Acoustic Evaluator with Abstention."
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "kaizen_core"
+path = "src/lib.rs"
+
+[[bin]]
+name = "kaizen-core"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tauri = { version = "^2.0", features = [] }
+
+[build-dependencies]
+tauri-build = { version = "^2.0", features = [] }

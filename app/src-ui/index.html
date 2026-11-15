@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="vellum">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KAIZEN LINGUISTICS — Universal Language Acquisition Platform</title>
+
+  <!-- Modular Atelier Aldus Design System -->
+  <link rel="stylesheet" href="./css/theme.css" />
+  <link rel="stylesheet" href="./css/layout.css" />
+  <link rel="stylesheet" href="./css/landing.css" />
+  <link rel="stylesheet" href="./css/journey.css" />
+  <link rel="stylesheet" href="./css/immersion.css" />
+  <link rel="stylesheet" href="./css/voice.css" />
+  <link rel="stylesheet" href="./css/reader.css" />
+  <link rel="stylesheet" href="./css/ledger.css" />
+  <link rel="stylesheet" href="./css/tooltips.css" />
+</head>
+<body>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 1: LANDING PAGE & LEARNER PROFILE SELECTION / SIGN-IN            -->
+  <!-- ===================================================================== -->
+  <div class="app-view active" id="view_landing">
+    <main class="landing-page">
+      <div class="landing-container">
+
+        <!-- Hero Section -->
+        <header class="landing-hero">
+          <div class="landing-brand-overline">ATELIER ALDUS · UNIVERSAL CODEX</div>
+          <h1 class="landing-title">Kaizen Linguistics</h1>
+          <p class="landing-subtitle">
+            Universal language acquisition through pure sensory immersion, unconfounded minimal contrasts, and 16 kHz acoustic pitch calibration.
+          </p>
+          <div class="landing-meta-strip">
+            <div class="landing-meta-item"><span>Zero Translation Crutches</span></div>
+            <div class="landing-meta-item"><span class="dot">·</span><span>One Active Language at a Time</span></div>
+            <div class="landing-meta-item"><span class="dot">·</span><span>FSRS-6 Memory Scheduling</span></div>
+            <div class="landing-meta-item"><span class="dot">·</span><span>Open .klpack Architecture</span></div>
+          </div>
+        </header>
+
+        <!-- Learner Profile Selection Hub -->
+        <section class="profile-hub-section">
+          <div class="section-header-row">
+            <div>
+              <h2 class="section-title">Select Learner Profile</h2>
+              <div class="section-caption">Progress, FSRS-6 card stabilities, and study chronicle are tracked per scholar.</div>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--rubric-vermilion);font-weight:700;">USER TELEMETRY DB</span>
+          </div>
+
+          <!-- Profiles Cards Grid -->
+          <div class="profiles-grid" id="profilesList">
+            <!-- Populated dynamically by app.js -->
+          </div>
+
+          <!-- Create New Learner Profile Box -->
+          <div class="create-profile-box">
+            <button class="create-profile-toggle" onclick="window.App.toggleCreateProfileForm()">
+              <span>+</span> <span>Create New Learner Profile</span>
+            </button>
+
+            <form class="create-profile-form" id="createProfileForm" onsubmit="window.App.handleCreateProfileSubmit(event)">
+              <div class="form-row">
+                <input type="text" class="form-input" id="newProfileName" placeholder="Enter scholar name (e.g., Josh Shay, Elena)..." required />
+                <div class="avatar-selector">
+                  <button type="button" class="avatar-option-btn selected" data-avatar="🏛️" onclick="window.App.setFormAvatar('🏛️')">🏛️</button>
+                  <button type="button" class="avatar-option-btn" data-avatar="📜" onclick="window.App.setFormAvatar('📜')">📜</button>
+                  <button type="button" class="avatar-option-btn" data-avatar="🦉" onclick="window.App.setFormAvatar('🦉')">🦉</button>
+                  <button type="button" class="avatar-option-btn" data-avatar="🏺" onclick="window.App.setFormAvatar('🏺')">🏺</button>
+                  <button type="button" class="avatar-option-btn" data-avatar="🕊️" onclick="window.App.setFormAvatar('🕊️')">🕊️</button>
+                  <button type="button" class="avatar-option-btn" data-avatar="🧭" onclick="window.App.setFormAvatar('🧭')">🧭</button>
+                </div>
+                <button type="submit" class="form-submit-btn">Create &amp; Sign In</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- 4 Pillars Method Overview -->
+        <section class="landing-pillars-grid">
+          <div class="pillar-card">
+            <span class="pillar-num">Pillar I</span>
+            <div class="pillar-title">Immersion Studio</div>
+            <p class="pillar-desc">Controlled 4-plate minimal contrasts isolating single inflectional deltas holding lexical roots invariant.</p>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-num">Pillar II</span>
+            <div class="pillar-title">TrueAccent Voice</div>
+            <p class="pillar-desc">Real-time pitch matching ($F_0$) over native contours with a 5-stage epistemic abstention gate.</p>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-num">Pillar III</span>
+            <div class="pillar-title">Authentic Reader</div>
+            <p class="pillar-desc">Clause onion-peeler with 3-stratum syntactic breakdown for primary literature (Gospel of Mark, Genesis, etc.).</p>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-num">Pillar IV</span>
+            <div class="pillar-title">Memory Ledger</div>
+            <p class="pillar-desc">Pinned 21-parameter FSRS-6 scheduler tracking 4 independent skill stabilities with 24h sibling spacing.</p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 2: LANGUAGE SELECTION STUDIO ("Choose a Language to Learn")     -->
+  <!-- ===================================================================== -->
+  <div class="app-view" id="view_languages">
+    <main class="languages-page">
+      <div class="languages-container">
+
+        <!-- Top Navigation -->
+        <nav class="languages-top-nav">
+          <button class="back-to-landing-btn" onclick="window.App.switchView('landing')">
+            ← Switch Learner Profile
+          </button>
+          <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-secondary);">
+            Primary Language: <strong>English</strong> · Single-Language Focus
+          </div>
+        </nav>
+
+        <!-- Header Hero -->
+        <header>
+          <h2 class="languages-hero-title">Choose a Language to Learn</h2>
+          <p class="languages-hero-desc">
+            KaizenLinguistics immerses you in one target language at a time to prevent cross-linguistic interference. All exercises, audio recitations, and authentic literature will be focused entirely on your selected language:
+          </p>
+        </header>
+
+        <!-- Installed Languages Selection Grid -->
+        <div class="languages-choice-grid" id="languagesChoiceGrid">
+          <!-- Populated dynamically by app.js (Koine Greek, Biblical Hebrew) -->
+        </div>
+
+        <!-- Universal Language Pack Extensibility -->
+        <div class="universal-extensibility-banner">
+          <div class="universal-text-group">
+            <h4>Learn Any Language on KaizenLinguistics</h4>
+            <p>
+              Our open architecture allows learning ANY language compiled into a <code>.klpack</code> archive (Classical Latin, Classical Arabic, Modern Japanese, French, etc.). Each pack includes unconfounded contrast exercises, high-fidelity audio, and syntactic treebanks.
+            </p>
+          </div>
+          <button class="import-pack-btn" onclick="alert('To load a custom language pack, place your .klpack file in the packs/ directory and KaizenLinguistics will automatically detect and verify it.')">
+            + Import Custom Pack (.klpack)
+          </button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 3: COURSE PROGRESSION JOURNEY & ROADMAP                          -->
+  <!-- ===================================================================== -->
+  <div class="app-view" id="view_course">
+
+    <!-- Top Colophon Application Bar -->
+    <header class="colophon-bar">
+      <div class="colophon-brand">
+        <span class="brand-overline">ATELIER ALDUS · UNIVERSAL CODEX</span>
+        <span class="brand-title">Kaizen Linguistics</span>
+      </div>
+
+      <!-- Active Learner Profile Chip & Menu -->
+      <div class="user-profile-header-chip">
+        <button class="user-chip-btn" onclick="window.App.toggleUserDropdown()" title="Current Learner Profile">
+          <span>🏛️</span>
+          <strong>Josh Shay</strong>
+          <span class="lang-caret">▼</span>
+        </button>
+        <div class="user-dropdown-menu">
+          <div class="user-dropdown-header">
+            <div class="user-dropdown-name">Josh Shay</div>
+            <div class="user-dropdown-streak">🔥 1 Day Streak</div>
+            <div class="user-dropdown-reviews" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--ink-muted);">42 Lifetime Reviews</div>
+          </div>
+          <button class="user-dropdown-action" onclick="window.App.switchView('languages')">
+            🌐 Switch Active Language
+          </button>
+          <button class="user-dropdown-action" onclick="window.App.switchView('landing')">
+            👥 Switch Learner Profile
+          </button>
+          <button class="user-dropdown-action" style="color:var(--rubric-vermilion);" onclick="window.App.signOut()">
+            ⎋ Sign Out
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Language Switcher -->
+      <div class="language-selector-block">
+        <button class="active-lang-btn" onclick="window.App.switchView('languages')" title="Switch active target language">
+          <span class="activeLangLabel">
+            <span class="lang-badge">Κοινή</span>
+            <span>Koine Greek</span>
+            <span class="lang-caret">▼</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Course Progression Header Label -->
+      <div style="display:flex;align-items:center;padding:0 16px;gap:8px;">
+        <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--ink-secondary);font-weight:600;">Course Progression Hub</span>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="colophon-right">
+        <button class="header-action-btn pointing-toggle-btn" onclick="window.App.togglePointing()">
+          Diacritics: On
+        </button>
+        <button class="header-action-btn theme-toggle-btn" onclick="window.App.toggleTheme()">
+          Atmosphere: Vellum
+        </button>
+        <button class="help-shortcut-btn" onclick="window.Tooltips.toggleShortcutsModal()" title="Keyboard Shortcuts &amp; Help (?)">
+          ?
+        </button>
+      </div>
+    </header>
+
+    <main class="journey-page">
+      <div class="journey-container">
+
+        <!-- Hero Course Card -->
+        <section class="journey-hero-card">
+          <div class="journey-hero-left">
+            <div class="journey-lang-badge" id="journeyHeroAutonym">Κοινή Ἑλληνική</div>
+            <h2 class="journey-hero-title" id="journeyHeroTitle">Koine Greek Learning Journey</h2>
+            <div class="journey-progress-text" id="journeyProgressText">0 of 70 Lessons Mastered (0.0%) · Level A1 Foundation</div>
+            <div class="journey-progress-bar-track">
+              <div class="journey-progress-bar-fill" id="journeyProgressFill" style="width: 0%;"></div>
+            </div>
+          </div>
+          <div class="journey-hero-right">
+            <button class="hero-continue-btn" id="journeyHeroContinueBtn">
+              <span>▶ Continue: Lesson 1 — Who Does What? (Subject vs. Object)</span>
+              <span style="font-size:1.1rem;">➔</span>
+            </button>
+            <button class="explorer-mode-toggle" id="btnExplorerMode" onclick="window.Journey.toggleExplorerMode()">
+              🔓 Unlock All Lessons (Explorer Mode)
+            </button>
+          </div>
+        </section>
+
+        <!-- Journey Sub-Nav Bar (Roadmap vs Tools) -->
+        <nav class="journey-nav-strip">
+          <div class="journey-tabs-group">
+            <button class="journey-nav-btn active">
+              <span>🗺️</span> <span>Course Roadmap (70 Lessons)</span>
+            </button>
+            <button class="journey-nav-btn" onclick="window.App.openStudioWorkspace('voice')">
+              <span>🎙️</span> <span>TrueAccent Voice</span>
+            </button>
+            <button class="journey-nav-btn" onclick="window.App.openStudioWorkspace('reader')">
+              <span>📖</span> <span>Authentic Reader</span>
+            </button>
+            <button class="journey-nav-btn" onclick="window.App.openStudioWorkspace('ledger')">
+              <span>📊</span> <span>Memory Ledger</span>
+            </button>
+            <button class="journey-nav-btn" onclick="window.App.openStudioWorkspace('method')">
+              <span>📜</span> <span>Method Guide</span>
+            </button>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-secondary);">
+            Sequential Progression: Master each lesson to unlock the next
+          </div>
+        </nav>
+
+        <!-- Units Progression Tree -->
+        <section class="units-progression-tree" id="unitsProgressionTree">
+          <!-- Rendered dynamically by Journey.renderCourseRoadmap() -->
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 4: FOCUSED UNCLUTTERED LESSON STUDIO                             -->
+  <!-- ===================================================================== -->
+  <div class="app-view" id="view_lesson">
+
+    <!-- Focused Lesson Sticky Top Bar -->
+    <header class="focused-lesson-top-bar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="lesson-back-btn" onclick="window.App.switchView('course')">
+          ← Exit to Course Map
+        </button>
+        <span class="lesson-breadcrumb-title" id="lessonBreadcrumbTitle">UNIT 1 · LESSON 1: Who Does What? Subject vs. Object</span>
+      </div>
+
+      <!-- Header Right Actions -->
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="user-profile-header-chip">
+          <button class="user-chip-btn" onclick="window.App.toggleUserDropdown()" title="Current Learner Profile">
+            <span>🏛️</span>
+            <strong>Josh Shay</strong>
+            <span class="lang-caret">▼</span>
+          </button>
+          <div class="user-dropdown-menu">
+            <div class="user-dropdown-header">
+              <div class="user-dropdown-name">Josh Shay</div>
+              <div class="user-dropdown-streak">🔥 1 Day Streak</div>
+            </div>
+            <button class="user-dropdown-action" onclick="window.App.switchView('course')">
+              🗺️ Course Roadmap
+            </button>
+            <button class="user-dropdown-action" onclick="window.App.switchView('languages')">
+              🌐 Switch Active Language
+            </button>
+            <button class="user-dropdown-action" onclick="window.App.switchView('landing')">
+              👥 Switch Learner Profile
+            </button>
+            <button class="user-dropdown-action" style="color:var(--rubric-vermilion);" onclick="window.App.signOut()">
+              ⎋ Sign Out
+            </button>
+          </div>
+        </div>
+
+        <button class="header-action-btn pointing-toggle-btn" onclick="window.App.togglePointing()">
+          Diacritics: On
+        </button>
+        <button class="header-action-btn theme-toggle-btn" onclick="window.App.toggleTheme()">
+          Atmosphere: Vellum
+        </button>
+        <button class="help-shortcut-btn" onclick="window.Tooltips.toggleShortcutsModal()" title="Keyboard Shortcuts &amp; Help (?)">
+          ?
+        </button>
+      </div>
+    </header>
+
+    <!-- Focused Lesson Stage (NO CLUTTERED SIDEBAR!) -->
+    <main class="focused-lesson-page">
+      <div class="focused-lesson-stage">
+
+        <!-- Celebratory Success Banner (Opens upon passing lesson) -->
+        <div class="lesson-success-banner" id="lessonSuccessBanner">
+          <div class="success-banner-header">
+            <span class="success-check-icon">✓</span>
+            <div>
+              <h3 class="success-banner-title" id="successBannerTitle">Lesson Passed!</h3>
+              <p class="success-banner-message" id="successBannerMessage">
+                You have successfully acquired this concept. It is now scheduled into your FSRS-6 Memory Ledger across all 4 learning modalities.
+              </p>
+            </div>
+          </div>
+          <div class="success-actions-row">
+            <button class="success-next-btn" id="successNextBtn">Continue to Next Lesson ➔</button>
+            <button class="success-voice-btn" onclick="window.Immersion.handoffToVoiceStudio()">Practice Prosody in Voice Studio ➔</button>
+            <button class="lesson-back-btn" onclick="window.App.switchView('course')">Return to Course Map</button>
+          </div>
+        </div>
+
+        <!-- English Pedagogical Lesson Walkthrough Card -->
+        <div class="lesson-walkthrough-card" id="immersionWalkthroughCard">
+          <div class="walkthrough-header-bar">
+            <div class="walkthrough-badge-group">
+              <span class="walkthrough-unit-tag" id="walkthroughUnitTag">UNIT 1 · LESSON 1</span>
+              <span class="walkthrough-grammar-tag" id="walkthroughGrammarTag">Nominative vs. Accusative Roles</span>
+            </div>
+            <button class="walkthrough-toggle-btn" id="btnToggleWalkthrough" onclick="window.Immersion.toggleWalkthrough()">
+              Lesson Guide ▾
+            </button>
+          </div>
+          <div id="walkthroughBody">
+            <h3 class="walkthrough-title" id="walkthroughTitle">Who Does What? Subject vs. Object</h3>
+            <p class="walkthrough-explanation" id="walkthroughExplanation">
+              In Greek, word order does NOT determine who does the action—endings do! Look for -ος for the Subject performing the action, and -ον for the Object receiving the action.
+            </p>
+            <div class="walkthrough-steps-grid">
+              <div class="walkthrough-step-box">
+                <div class="step-box-header">1. Listen &amp; Read</div>
+                <div class="step-box-text">Hear native pronunciation and observe the inflectional morpheme.</div>
+              </div>
+              <div class="walkthrough-step-box">
+                <div class="step-box-header">2. Compare Situations</div>
+                <div class="step-box-text">Inspect the 4 situational contrast diagrams below to see who acts on whom.</div>
+              </div>
+              <div class="walkthrough-step-box">
+                <div class="step-box-header">3. Choose Matching Plate</div>
+                <div class="step-box-text">Click the situation plate that matches the sentence.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Target Stimulus Folio -->
+        <div class="stimulus-card">
+          <div class="stimulus-meta">
+            <span class="unit-badge" id="immersionUnitBadge">Nominative vs Accusative</span>
+            <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--ink-muted);">Controlled Minimal Contrast</span>
+          </div>
+          <div class="target-script" id="immersionTargetScript">Loading concept...</div>
+          <div class="audio-controls-row">
+            <div class="ipa-text" id="immersionTargetIpa">/.../</div>
+            <div class="control-btn-group">
+              <button class="control-btn primary" onclick="window.Immersion.playAudio()">▶ Play Audio (Space)</button>
+              <button class="control-btn" onclick="window.Immersion.handoffToVoiceStudio()">🎙 Practice in Voice Studio ➔</button>
+              <button class="control-btn" onclick="window.Immersion.stepConcept(-1)">◀ Prev</button>
+              <button class="control-btn" onclick="window.Immersion.stepConcept(1)">Next ▶</button>
+            </div>
+          </div>
+
+          <!-- English Translation & Morpheme Analysis (Toggleable) -->
+          <div class="pedagogical-gloss-row">
+            <button class="gloss-toggle-btn" onclick="window.Immersion.toggleGloss()">
+              💡 <span id="glossToggleLabel">Show English Meaning &amp; Analysis</span>
+            </button>
+            <div class="gloss-content-box" id="glossContentBox" style="display:none;">
+              <div class="gloss-translation-line" id="glossTranslationLine">"The brother sees the angel."</div>
+              <div class="gloss-morpheme-line" id="glossMorphemeLine">ἄγγελος (messenger / angel) · Focus: Nominative vs. Accusative</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post-Selection Insight Banner -->
+        <div class="feedback-insight-banner" id="feedbackInsightBanner">
+          <div class="feedback-text" id="feedbackInsightText"></div>
+          <button class="voice-handoff-link" onclick="window.Immersion.handoffToVoiceStudio()">Inspect Prosody in Voice Studio ➔</button>
+        </div>
+
+        <!-- 4-Plate Situational Contrast Grid -->
+        <div class="contrast-grid" id="immersionContrastGrid"></div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 5: MAIN WORKSPACE STUDIOS (Voice, Reader, Ledger, Method)        -->
+  <!-- ===================================================================== -->
+  <div class="app-view" id="view_studios">
+
+    <!-- Top Colophon Application Bar -->
+    <header class="colophon-bar">
+      <div class="colophon-brand">
+        <span class="brand-overline">ATELIER ALDUS · UNIVERSAL CODEX</span>
+        <span class="brand-title">Kaizen Linguistics</span>
+      </div>
+
+      <!-- Active Learner Profile Chip & Menu -->
+      <div class="user-profile-header-chip">
+        <button class="user-chip-btn" onclick="window.App.toggleUserDropdown()" title="Current Learner Profile">
+          <span>🏛️</span>
+          <strong>Josh Shay</strong>
+          <span class="lang-caret">▼</span>
+        </button>
+        <div class="user-dropdown-menu">
+          <div class="user-dropdown-header">
+            <div class="user-dropdown-name">Josh Shay</div>
+            <div class="user-dropdown-streak">🔥 1 Day Streak</div>
+            <div class="user-dropdown-reviews" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--ink-muted);">42 Lifetime Reviews</div>
+          </div>
+          <button class="user-dropdown-action" onclick="window.App.switchView('course')">
+            🗺️ Course Roadmap
+          </button>
+          <button class="user-dropdown-action" onclick="window.App.switchView('languages')">
+            🌐 Switch Active Language
+          </button>
+          <button class="user-dropdown-action" onclick="window.App.switchView('landing')">
+            👥 Switch Learner Profile
+          </button>
+          <button class="user-dropdown-action" style="color:var(--rubric-vermilion);" onclick="window.App.signOut()">
+            ⎋ Sign Out
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Language Switcher -->
+      <div class="language-selector-block">
+        <button class="active-lang-btn" onclick="window.App.switchView('languages')" title="Switch active target language">
+          <span class="activeLangLabel">
+            <span class="lang-badge">Κοινή</span>
+            <span>Koine Greek</span>
+            <span class="lang-caret">▼</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Back to Course Journey Roadmap Button -->
+      <div style="display:flex;align-items:center;padding:0 8px;">
+        <button class="lesson-back-btn" onclick="window.App.switchView('course')" style="padding:6px 12px;font-weight:700;">
+          ← Course Map
+        </button>
+      </div>
+
+      <!-- Primary Workspace Tabs -->
+      <nav class="workspace-tabs">
+        <button class="tab-btn active" data-workspace="voice" onclick="window.App.switchWorkspace('voice')">
+          <span class="tab-num">II</span> Voice Studio
+        </button>
+        <button class="tab-btn" data-workspace="reader" onclick="window.App.switchWorkspace('reader')">
+          <span class="tab-num">III</span> Authentic Reader
+        </button>
+        <button class="tab-btn" data-workspace="ledger" onclick="window.App.switchWorkspace('ledger')">
+          <span class="tab-num">IV</span> Memory Ledger
+        </button>
+        <button class="tab-btn" data-workspace="method" onclick="window.App.switchWorkspace('method')">
+          <span class="tab-num">V</span> Method Guide
+        </button>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="colophon-right">
+        <button class="header-action-btn pointing-toggle-btn" onclick="window.App.togglePointing()">
+          Diacritics: On
+        </button>
+        <button class="header-action-btn theme-toggle-btn" onclick="window.App.toggleTheme()">
+          Atmosphere: Vellum
+        </button>
+        <button class="help-shortcut-btn" onclick="window.Tooltips.toggleShortcutsModal()" title="Keyboard Shortcuts &amp; Help (?)">
+          ?
+        </button>
+      </div>
+    </header>
+
+    <!-- Workspace Stage Area -->
+    <main class="workspace-stage">
+
+      <!-- =================================================================== -->
+      <!-- WORKSPACE 2: TRUEACCENT VOICE STUDIO (Speech & Prosody)              -->
+      <!-- =================================================================== -->
+      <section class="workspace-panel active" id="panel_voice">
+        <div class="workspace-guidance-banner">
+          <div>
+            <strong>TrueAccent Voice Studio:</strong> Real-time pitch matching ($F_0$) &amp; 5-stage epistemic speech evaluation.
+            <span class="scholia-tip" data-tip="Plots your voice in vermilion over the native historical reference curve in gold. If your room is noisy, the system abstains rather than giving a false score.">?</span>
+          </div>
+          <button class="guidance-toggle-btn" data-target="guideVoice">What is this? ▼</button>
+        </div>
+        <div class="guidance-drawer" id="guideVoice">
+          <p><strong>Trustworthy Acoustic Calibration:</strong> Most language apps use cheap speech engines that hand out fake 95% scores even if you mumble. TrueAccent decomposes your utterance through a 5-Stage Epistemic Gate: checking Signal-to-Noise Ratio (SNR $\ge 12\text{ dB}$), speech duration, unconstrained transcription verification, Dynamic Time Warping alignment, and phoneme posterior log-likelihood. If audio is unclear, the system explicitly returns <em>Unable to Assess</em> without penalizing your spaced-repetition memory score.</p>
+        </div>
+
+        <div class="voice-layout">
+          <div class="voice-header-card">
+            <div>
+              <div class="voice-target-phrase" id="voiceTargetPhrase">ὁ ἄγγελος βλέπει</div>
+              <div class="voice-target-ipa" id="voiceTargetIpa">/ho ˈaŋɡɛlos blˈɛpiː/</div>
+            </div>
+            <div class="voice-action-row">
+              <button class="record-btn" id="btnVoiceRecord" onclick="window.Voice.toggleRecording()">
+                ● Record Voice (Microphone)
+              </button>
+            </div>
+          </div>
+
+          <!-- 260px Harmonic Oscilloscope HUD -->
+          <div class="oscilloscope-stage-box">
+            <div class="stage-title-strip">
+              <span>TrueAccent Dual-Trace Harmonic Pitch Oscilloscope ($F_0$ &amp; 32-Band Spectrum)</span>
+              <span style="color:var(--verdigris-pass);">16 kHz Direct PCM</span>
+            </div>
+            <canvas id="voiceScopeCanvas"></canvas>
+            <div class="scope-legend-row">
+              <div class="legend-key">
+                <span class="legend-swatch" style="background:var(--gold-burnished);"></span>
+                <span>Native Reference Pitch Contour ($F_0$)</span>
+              </div>
+              <div class="legend-key">
+                <span class="legend-swatch" style="background:var(--rubric-vermilion);"></span>
+                <span>Learner Recorded Vocal Pitch ($F_0$)</span>
+              </div>
+              <div class="legend-key">
+                <span class="legend-swatch" style="background:var(--gold-soft);border:1px solid var(--gold-burnished);"></span>
+                <span>32-Band Waveform Energy HUD</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5-Stage Epistemic Gate Grid -->
+          <div class="epistemic-gate-grid">
+            <div class="gate-card" id="gate1">
+              <span class="gate-label">1. Signal Hygiene</span>
+              <span class="gate-status pass">READY</span>
+              <span class="gate-desc">SNR &ge; 12 dB required</span>
+            </div>
+            <div class="gate-card" id="gate2">
+              <span class="gate-label">2. Speech Duration</span>
+              <span class="gate-status pass">READY</span>
+              <span class="gate-desc">VAD endpointing &ge; 350ms</span>
+            </div>
+            <div class="gate-card" id="gate3">
+              <span class="gate-label">3. Target Verify</span>
+              <span class="gate-status pass">READY</span>
+              <span class="gate-desc">Matches target lexemes</span>
+            </div>
+            <div class="gate-card" id="gate4">
+              <span class="gate-label">4. Time Alignment</span>
+              <span class="gate-status pass">READY</span>
+              <span class="gate-desc">DTW confidence &ge; 0.80</span>
+            </div>
+            <div class="gate-card" id="gate5">
+              <span class="gate-label">5. Phoneme GoP</span>
+              <span class="gate-status pass">READY</span>
+              <span class="gate-desc">Acoustic posterior pass</span>
+            </div>
+          </div>
+
+          <!-- Abstention Explainer Card -->
+          <div class="abstention-card" id="voiceAbstentionCard">
+            <div class="abstention-title">Epistemic Abstention: Unable to Assess</div>
+            <div class="abstention-body" id="voiceAbstentionBody"></div>
+          </div>
+
+          <!-- Collapsible Diagnostics Drawer -->
+          <div class="diagnostics-drawer">
+            <div class="diagnostics-header" onclick="window.Voice.toggleDiagnosticsDrawer()">
+              <span>⚙ Developer Diagnostics &amp; Telemetry Simulation</span>
+              <span>Toggle Drawer ▼</span>
+            </div>
+            <div class="diagnostics-body" id="diagnosticsBody">
+              <p style="font-size:0.82rem;color:var(--ink-secondary);">Use these tools to verify the native 5-stage speech evaluation gate without live microphone hardware:</p>
+              <div style="display:flex;gap:10px;">
+                <button class="control-btn" onclick="window.Voice.simulateSpeechUtterance(false)">Run Calibrated Clean Utterance</button>
+                <button class="control-btn" onclick="window.Voice.simulateSpeechUtterance(true)">Run Degraded Signal (Trigger Abstention)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- WORKSPACE 3: AUTHENTIC TEXT READER (Clause Onion-Peeler)             -->
+      <!-- =================================================================== -->
+      <section class="workspace-panel" id="panel_reader">
+        <div class="workspace-guidance-banner">
+          <div>
+            <strong>Authentic Text Reader:</strong> Scaffolded reading of authentic literature with 3-stratum syntactic peeling.
+            <span class="scholia-tip" data-tip="Peels away modifiers layer by layer: Stratum 1 shows only the core sentence, Stratum 2 adds descriptions, Stratum 3 shows the full text.">?</span>
+          </div>
+          <button class="guidance-toggle-btn" data-target="guideReader">What is this? ▼</button>
+        </div>
+        <div class="guidance-drawer" id="guideReader">
+          <p><strong>The Clause Onion-Peeler:</strong> Reading authentic ancient or modern literature is overwhelming when complex subordinate clauses, participles, and adjectives obscure the core thought. The 3-Stratum Syntactic Peeler allows you to isolate the core sentence kernel first (Verb + Subject + Direct Object), then expand to modifiers, and finally read the complete authentic prose. Click any word to inspect its root, grammar, and English definition.</p>
+        </div>
+
+        <div class="reader-layout">
+          <div class="reader-header-bar">
+            <div class="passage-select-group">
+              <label style="font-family:var(--font-mono);font-size:0.7rem;text-transform:uppercase;color:var(--ink-muted);">Select Passage:</label>
+              <select class="reader-select" id="readerPassageSelect" onchange="window.Reader.selectPassage(this.value)"></select>
+            </div>
+            <button class="control-btn primary" onclick="window.Reader.playPassageRecitation()">▶ Play Native Recitation</button>
+          </div>
+
+          <!-- 3-Stratum Controls -->
+          <div class="strata-control-strip">
+            <div class="strata-btn-group">
+              <button class="strata-btn" data-stratum="1" onclick="window.Reader.setStratum(1)">Stratum 1: Core Clause</button>
+              <button class="strata-btn" data-stratum="2" onclick="window.Reader.setStratum(2)">Stratum 2: Expansion</button>
+              <button class="strata-btn active" data-stratum="3" onclick="window.Reader.setStratum(3)">Stratum 3: Full Text</button>
+            </div>
+            <div class="strata-explanation-note" id="strataExplanationNote">
+              Stratum 3 (Full Text): Complete authentic literature with discourse particles and poetic accents.
+            </div>
+          </div>
+
+          <!-- Manuscript Folio Display -->
+          <div class="manuscript-stage" id="readerManuscriptStage"></div>
+
+          <!-- Floating Word Inspector Card -->
+          <div class="word-inspect-card" id="readerWordInspectCard"></div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- WORKSPACE 4: MEMORY LEDGER (FSRS-6 Deck Analytics)                   -->
+      <!-- =================================================================== -->
+      <section class="workspace-panel" id="panel_ledger">
+        <div class="workspace-guidance-banner">
+          <div>
+            <strong>Memory Ledger:</strong> Pinned FSRS-6 spaced repetition, independent skill stability &amp; 24h sibling spacing.
+            <span class="scholia-tip" data-tip="Tracks Listening, Reading, Speaking, and Writing separately. Practicing one modality defers siblings for 24 hours to prevent memory illusions.">?</span>
+          </div>
+          <button class="guidance-toggle-btn" data-target="guideLedger">What is this? ▼</button>
+        </div>
+        <div class="guidance-drawer" id="guideLedger">
+          <p><strong>Observation-Driven Memory Scheduling:</strong> Traditional flashcard systems assume that recognizing a word on a screen means you can also understand it when spoken or say it aloud. KaizenLinguistics maintains four independent memory stability vectors for every concept: Listening, Reading, Speaking, and Writing. When you review a word in listening mode, its reading and speaking cards are temporarily buried for 24 hours so you are tested on genuine active recall rather than same-day visual echoes.</p>
+        </div>
+
+        <div class="ledger-layout">
+          <!-- Retention Summary Cards Grid -->
+          <div class="retention-summary-grid">
+            <div class="metric-card">
+              <span class="metric-label">Cards Due Today</span>
+              <span class="metric-number" id="metricDueCount" style="color:var(--rubric-vermilion);">0</span>
+              <span class="metric-note">Ready for scheduled review</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">In Active Learning</span>
+              <span class="metric-number" id="metricLearningCount" style="color:var(--gold-burnished);">0</span>
+              <span class="metric-note">Acquiring initial stability</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Mastered Concepts</span>
+              <span class="metric-number" id="metricMasteredCount" style="color:var(--verdigris-pass);">0</span>
+              <span class="metric-note">Stability &ge; 21 days</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">24h Sibling Buried</span>
+              <span class="metric-number" id="metricBuriedCount" style="color:var(--lapis-cobalt);">0</span>
+              <span class="metric-note">Deferred until tomorrow</span>
+            </div>
+          </div>
+
+          <!-- 4-Skill Independent Stability Meters -->
+          <div class="skills-meters-box">
+            <div class="box-title-strip">
+              <span>Independent Skill Stability (FSRS-6 Days Until 90% Recall)</span>
+              <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--ink-muted);">Target: 21.0 Days</span>
+            </div>
+            <div class="skills-grid" id="skillsGridContainer"></div>
+          </div>
+
+          <!-- 24h Sibling Spacing Explanation Box -->
+          <div class="sibling-spacing-box">
+            <div style="font-family:var(--font-mono);font-size:0.75rem;font-weight:700;text-transform:uppercase;color:var(--rubric-vermilion);">
+              Why Sibling Spacing Matters
+            </div>
+            <div class="sibling-explanation">
+              To prevent same-day rote repetition, reviewing a concept in <strong>Listening</strong> automatically postpones its <strong>Reading</strong> and <strong>Speaking</strong> cards by 24 hours. This guarantees that when you read or speak the phrase tomorrow, you are engaging genuine long-term retrieval rather than short-term sensory echo.
+            </div>
+          </div>
+
+          <!-- Review Activity Chronicle -->
+          <div class="chronicle-box">
+            <div class="box-title-strip">
+              <span>Recent Review Audit Chronicle (user_telemetry.db)</span>
+              <button class="header-action-btn" onclick="window.Ledger.runIntegrityAudit()">Audit Dual-DB Integrity</button>
+            </div>
+            <table class="chronicle-table">
+              <thead>
+                <tr>
+                  <th>Modality</th>
+                  <th>Outcome / Grade</th>
+                  <th>Stability After</th>
+                  <th>Latency</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="ledgerChronicleTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- WORKSPACE 5: PHILOLOGICAL METHOD GUIDE                               -->
+      <!-- =================================================================== -->
+      <section class="workspace-panel" id="panel_method">
+        <div class="method-codex-layout">
+          <article class="method-section">
+            <h2 class="method-heading">I. The Dynamic Immersion Principle</h2>
+            <p class="method-prose">
+              Translating into English in your head creates a cognitive bottleneck. When you learn that a word in another language "equals" an English word, your brain is forced to pass through English every time you hear or read it. True fluency requires direct sensory mapping: associating the sounds and script of the target language directly with situational reality.
+            </p>
+            <div class="method-quote">
+              "Acquisition occurs when the learner understands messages in the target language through meaningful situational contrasts, holding non-target variables invariant."
+            </div>
+          </article>
+
+          <article class="method-section">
+            <h2 class="method-heading">II. Controlled Minimal Contrasts</h2>
+            <p class="method-prose">
+              Standard language courses confound multiple variables at once: changing the noun, the verb, and the adjective in the same sentence. When that happens, the learner cannot tell which part of the sentence caused the ending to change. In KaizenLinguistics, every exercise isolates a <strong>single delta</strong>. The lexical roots remain strictly identical across all panels so your brain instinctively recognizes the inflectional morpheme.
+            </p>
+          </article>
+
+          <article class="method-section">
+            <h2 class="method-heading">III. TrueAccent Epistemic Guarantee</h2>
+            <p class="method-prose">
+              Modern AI apps frequently flatter learners by giving 95% scores on unintelligible speech. We reject false confidence. The TrueAccent acoustic pipeline enforces a 5-stage epistemic verification gate. If background noise, clipping, or mumbling makes it impossible to verify pronunciation with high confidence, the system returns <em>Unable to Assess</em>. Your card stability is protected, and you are prompted to try again in a quiet environment.
+            </p>
+          </article>
+
+          <article class="method-section">
+            <h2 class="method-heading">IV. Observation-Driven FSRS-6 Memory Scheduling</h2>
+            <p class="method-prose">
+              We use the 21-parameter Free Spaced Repetition Scheduler (FSRS-6) algorithm implemented in native Rust. Unlike legacy systems, we maintain four independent skill histories for every concept: Listening, Reading, Speaking, and Writing. Passing a listening card only proves you recognized the sound; your speaking score advances only when you speak aloud and pass acoustic verification.
+            </p>
+          </article>
+
+          <article class="method-section">
+            <h2 class="method-heading">V. Keyboard Shortcuts Reference</h2>
+            <table class="shortcut-table">
+              <tr><td><span class="kbd-badge">1</span> – <span class="kbd-badge">5</span></td><td>Switch between the 5 Workspaces</td></tr>
+              <tr><td><span class="kbd-badge">Space</span></td><td>Play target audio / Toggle live recording</td></tr>
+              <tr><td><span class="kbd-badge">R</span></td><td>Toggle microphone recording</td></tr>
+              <tr><td><span class="kbd-badge">[</span> / <span class="kbd-badge">]</span></td><td>Step to Previous / Next Concept</td></tr>
+              <tr><td><span class="kbd-badge">T</span></td><td>Toggle Atmosphere (Vellum Cotton vs Basalt Nocturne)</td></tr>
+              <tr><td><span class="kbd-badge">P</span></td><td>Toggle Diacritics &amp; Vocalic Pointing</td></tr>
+              <tr><td><span class="kbd-badge">?</span></td><td>Toggle Keyboard Shortcuts Cheat Sheet</td></tr>
+              <tr><td><span class="kbd-badge">Esc</span></td><td>Close any active modal or popover</td></tr>
+            </table>
+          </article>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Language Switcher Modal -->
+  <div class="modal-overlay" id="languageModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Select Active Target Language</h3>
+        <button class="modal-close-btn" onclick="window.App.closeLanguageModal()">✕</button>
+      </div>
+      <p style="font-size:0.88rem;color:var(--ink-secondary);margin-bottom:16px;">
+        KaizenLinguistics focuses on mastering one target language at a time. Select your active language studio below:
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;" id="languageSelectionList"></div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Cheat Sheet Modal -->
+  <div class="modal-overlay" id="shortcutsModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Keyboard Shortcuts &amp; Navigation</h3>
+        <button class="modal-close-btn" onclick="window.Tooltips.toggleShortcutsModal()">✕</button>
+      </div>
+      <table class="shortcut-table">
+        <tr><td><span class="kbd-badge">1</span></td><td>Jump to <strong>Immersion Studio</strong></td></tr>
+        <tr><td><span class="kbd-badge">2</span></td><td>Jump to <strong>Voice Studio</strong></td></tr>
+        <tr><td><span class="kbd-badge">3</span></td><td>Jump to <strong>Authentic Reader</strong></td></tr>
+        <tr><td><span class="kbd-badge">4</span></td><td>Jump to <strong>Memory Ledger</strong></td></tr>
+        <tr><td><span class="kbd-badge">5</span></td><td>Jump to <strong>Method Guide</strong></td></tr>
+        <tr><td><span class="kbd-badge">Space</span></td><td>Play Audio in Immersion / Record in Voice</td></tr>
+        <tr><td><span class="kbd-badge">R</span></td><td>Record Voice Utterance</td></tr>
+        <tr><td><span class="kbd-badge">[</span> / <span class="kbd-badge">]</span></td><td>Previous / Next Concept</td></tr>
+        <tr><td><span class="kbd-badge">T</span></td><td>Toggle Day (Vellum) / Night (Basalt) Atmosphere</td></tr>
+        <tr><td><span class="kbd-badge">P</span></td><td>Toggle Diacritics / Pointing</td></tr>
+        <tr><td><span class="kbd-badge">?</span></td><td>Toggle this Shortcuts Cheat Sheet</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="./js/tooltips.js"></script>
+  <script src="./js/journey.js"></script>
+  <script src="./js/immersion.js"></script>
+  <script src="./js/voice.js"></script>
+  <script src="./js/reader.js"></script>
+  <script src="./js/ledger.js"></script>
+  <script src="./js/app.js"></script>
+  <script>
+    function filterConcepts(query) {
+      const q = query.toLowerCase();
+      document.querySelectorAll(".concept-item").forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? "flex" : "none";
+      });
+    }
+
+    // Close user dropdown if clicked outside
+    window.addEventListener("click", (e) => {
+      const chip = document.querySelector(".user-profile-header-chip");
+      if (chip && !chip.contains(e.target)) {
+        window.App.closeUserDropdown();
+      }
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      window.App.init();
+    });
+  </script>
+</body>
+</html>
